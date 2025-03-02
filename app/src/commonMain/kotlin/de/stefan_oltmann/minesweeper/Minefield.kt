@@ -59,7 +59,26 @@ class Minefield(
         revealedMatrix[x][y]
 
     fun reveal(x: Int, y: Int) {
+
+        /* Ignore call if coordinates are already revealed. */
+        if (revealedMatrix[x][y])
+            return
+
+        /* Mark the current field as revealed */
         revealedMatrix[x][y] = true
+
+        /* If the field is empty, recursively reveal adjacent fields */
+        if (matrix[x][y] == FieldType.EMPTY) {
+
+            for ((dx, dy) in directions) {
+
+                val newX = x + dx
+                val newY = y + dy
+
+                if (newX in matrix.indices && newY in matrix[0].indices && !revealedMatrix[newX][newY])
+                    reveal(newX, newY)
+            }
+        }
     }
 
     fun isFlagged(x: Int, y: Int): Boolean =
@@ -68,9 +87,6 @@ class Minefield(
     fun toggleFlag(x: Int, y: Int) {
         flaggedMatrix[x][y] = !flaggedMatrix[x][y]
     }
-
-    fun isMine(x: Int, y: Int): Boolean =
-        matrix[x][y] == FieldType.MINE
 
     fun getFieldType(x: Int, y: Int): FieldType = matrix[x][y]
 

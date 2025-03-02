@@ -41,7 +41,7 @@ class GameState {
         minefield.reveal(x, y)
 
         /* Check game over condition */
-        if (minefield.isMine(x, y)) {
+        if (minefield.getFieldType(x, y) == FieldType.MINE) {
             gameOver = true
             return
         }
