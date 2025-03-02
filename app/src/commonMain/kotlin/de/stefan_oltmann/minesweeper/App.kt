@@ -20,13 +20,16 @@
 package de.stefan_oltmann.minesweeper
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -85,7 +88,9 @@ fun App() {
                         width = (map.width * fieldSize).dp,
                         height = (map.height * fieldSize).dp
                     )
-                    .border(1.dp, Color.Black)
+                    .background(colorMapBackground)
+                    .border(1.dp, colorMapBorder, RoundedCornerShape(8.dp))
+                    .clip(RoundedCornerShape(8.dp))
             ) {
 
                 repeat(map.width) { x ->

@@ -21,6 +21,9 @@ package de.stefan_oltmann.minesweeper
 
 import androidx.compose.ui.graphics.Color
 
+val colorMapBorder = Color.Black
+val colorMapBackground = Color(0xFFF8F8F8)
+
 val colorOneAdjacentMine = Color.Blue
 val colorTwoAdjacentMines = Color(0xFF006400)
 val colorThreeAdjacentMines = Color(0xFFC40000)
