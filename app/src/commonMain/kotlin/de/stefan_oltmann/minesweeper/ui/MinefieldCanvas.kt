@@ -33,6 +33,7 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
@@ -124,7 +125,6 @@ fun MinefieldCanvas(
                     if (gameState.minefield.isFlagged(x, y)) {
 
                         drawFlag(
-                            textMeasurer = textMeasurer,
                             topLeft = offset,
                             size = cellSizeWithDensity
                         )
@@ -271,31 +271,52 @@ private fun DrawScope.drawNumber(
 }
 
 private fun DrawScope.drawFlag(
-    textMeasurer: TextMeasurer,
     topLeft: Offset,
     size: Size,
 ) {
 
-    val text = "⚑"
+    val poleHeight = size.height * 0.5f
+    val poleWidth = size.width * 0.05f
+    val flagWidth = size.width * 0.3f
+    val flagHeight = size.height * 0.3f
 
-    val style = TextStyle.Default.copy(
-        color = Color.Red,
-        fontWeight = FontWeight.Bold,
-        fontSize = 24.sp
+    /* Calculate the centered position */
+    val centerX = topLeft.x + size.width / 2
+    val centerY = topLeft.y + size.height / 2
+
+    /* Adjust so that the pole starts at the bottom center */
+    val poleStart = Offset(centerX, centerY - poleHeight / 2)
+    val poleEnd = Offset(centerX, centerY + poleHeight / 2)
+
+    /* Draw the flagpole */
+    drawLine(
+        color = Color.Black,
+        start = poleStart,
+        end = poleEnd,
+        strokeWidth = poleWidth
     )
 
-    val textLayout = textMeasurer.measure(text, style)
+    /* Define the flag shape (triangle) relative to the top of the pole */
+    val flagPath = Path().apply {
 
-    val centeredOffset = Offset(
-        topLeft.x + (size.width - textLayout.size.width) / 2,
-        topLeft.y + (size.height - textLayout.size.height) / 2
-    )
+        /* Start the flag slightly to the right of the pole */
+        val flagStartX = poleStart.x + poleWidth / 2
 
-    drawText(
-        textMeasurer = textMeasurer,
-        text = text,
-        style = style,
-        topLeft = centeredOffset,
-        size = size
+        /* Top of the pole, slightly right */
+        moveTo(flagStartX, poleStart.y)
+
+        /* Flag tip */
+        lineTo(flagStartX + flagWidth, poleStart.y + flagHeight / 2)
+
+        /* Bottom of the flag */
+        lineTo(flagStartX, poleStart.y + flagHeight)
+
+        close()
+    }
+
+    /* Draw the flag */
+    drawPath(
+        path = flagPath,
+        color = Color.Red
     )
 }
