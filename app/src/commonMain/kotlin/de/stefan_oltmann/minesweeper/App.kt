@@ -5,6 +5,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
@@ -18,16 +19,20 @@ import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlin.contracts.contract
 
 @Composable
 fun App() {
 
-    val map = Map(
-        width = 16,
-        height = 12,
-        mineCount = 10,
-        seed = 1
-    )
+    val map = remember {
+
+        Map(
+            width = 16,
+            height = 12,
+            mineCount = 10,
+            seed = 1
+        )
+    }
 
     Column(
         modifier = Modifier.padding(16.dp)
@@ -75,15 +80,20 @@ fun App() {
                             style = Stroke()
                         )
 
-                        drawText(
-                            textMeasurer = textMeasurer,
-                            text = "$x, $y",
-                            style = TextStyle.Default.copy(
-                                fontSize = 14.sp
-                            ),
-                            topLeft = offset,
-                            size = fieldSizeWithDensity
-                        )
+                        val field = map.get(x, y)
+
+                        if (field == Field.MINE) {
+
+                            drawText(
+                                textMeasurer = textMeasurer,
+                                text = "X",
+                                style = TextStyle.Default.copy(
+                                    fontSize = 28.sp
+                                ),
+                                topLeft = offset,
+                                size = fieldSizeWithDensity
+                            )
+                        }
                     }
                 }
             }
