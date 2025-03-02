@@ -275,7 +275,7 @@ private fun DrawScope.drawMine(
 ) {
 
     drawRoundRect(
-        color = Color.Red,
+        color = colorMineBackground,
         topLeft = topLeft,
         size = size,
         cornerRadius = CornerRadius(10f),
@@ -287,11 +287,11 @@ private fun DrawScope.drawMine(
         topLeft.y + size.height / 2
     )
 
-    val radius = size.width / 4
+    val radius = size.width / 5
 
     /* Draw the central circle (the mine itself) */
     drawCircle(
-        color = Color.Black,
+        color = colorMineForeground,
         radius = radius,
         center = center
     )
@@ -309,7 +309,7 @@ private fun DrawScope.drawMine(
         val endY = center.y + lineLength * sin(radians)
 
         drawLine(
-            color = Color.Black,
+            color = colorMineForeground,
             start = center,
             end = Offset(endX, endY),
             strokeWidth = 4f
