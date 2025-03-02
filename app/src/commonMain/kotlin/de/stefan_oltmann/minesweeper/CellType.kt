@@ -19,7 +19,7 @@
 
 package de.stefan_oltmann.minesweeper
 
-enum class FieldType {
+enum class CellType {
 
     EMPTY,
     MINE,
@@ -34,7 +34,7 @@ enum class FieldType {
 
     companion object {
 
-        fun ofMineCount(mineCount: Int): FieldType =
+        fun ofMineCount(mineCount: Int): CellType =
             when (mineCount) {
                 0 -> EMPTY
                 1 -> ONE

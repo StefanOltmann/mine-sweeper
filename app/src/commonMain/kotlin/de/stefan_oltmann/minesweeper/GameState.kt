@@ -33,7 +33,7 @@ class GameState {
 
     fun hit(x: Int, y: Int) {
 
-        /* Ignore clicks on already revealed or flagged fields. */
+        /* Ignore clicks on already revealed or flagged cells. */
         if (minefield.isRevealed(x, y) || minefield.isFlagged(x, y))
             return
 
@@ -41,7 +41,7 @@ class GameState {
         minefield.reveal(x, y)
 
         /* Check game over condition */
-        if (minefield.getFieldType(x, y) == FieldType.MINE) {
+        if (minefield.getCellType(x, y) == CellType.MINE) {
             gameOver = true
             return
         }

@@ -70,15 +70,15 @@ fun App() {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        val fieldSize = 40f
+        val cellSize = 40f
 
         val textMeasurer = rememberTextMeasurer()
 
         val density = LocalDensity.current.density
 
-        val fieldSizeWithDensity = Size(
-            width = fieldSize * density,
-            height = fieldSize * density
+        val cellSizeWithDensity = Size(
+            width = cellSize * density,
+            height = cellSize * density
         )
 
         Box(
@@ -89,8 +89,8 @@ fun App() {
             Canvas(
                 modifier = Modifier
                     .size(
-                        width = (gameState.minefield.width * fieldSize).dp,
-                        height = (gameState.minefield.height * fieldSize).dp
+                        width = (gameState.minefield.width * cellSize).dp,
+                        height = (gameState.minefield.height * cellSize).dp
                     )
                     .background(colorMapBackground)
                     .border(1.dp, colorMapBorder, RoundedCornerShape(8.dp))
@@ -100,8 +100,8 @@ fun App() {
                             onTap = { offset ->
 
                                 gameState.hit(
-                                    x = (offset.x / fieldSizeWithDensity.width).toInt(),
-                                    y = (offset.y / fieldSizeWithDensity.height).toInt()
+                                    x = (offset.x / cellSizeWithDensity.width).toInt(),
+                                    y = (offset.y / cellSizeWithDensity.height).toInt()
                                 )
 
                                 redrawState.value += 1
@@ -109,8 +109,8 @@ fun App() {
                             onLongPress = { offset ->
 
                                 gameState.flag(
-                                    x = (offset.x / fieldSizeWithDensity.width).toInt(),
-                                    y = (offset.y / fieldSizeWithDensity.height).toInt()
+                                    x = (offset.x / cellSizeWithDensity.width).toInt(),
+                                    y = (offset.y / cellSizeWithDensity.height).toInt()
                                 )
 
                                 redrawState.value += 1
@@ -127,17 +127,17 @@ fun App() {
                 repeat(gameState.minefield.width) { x ->
                     repeat(gameState.minefield.height) { y ->
 
-                        val offset = Offset(x * fieldSize * density, y * fieldSize * density)
+                        val offset = Offset(x * cellSize * density, y * cellSize * density)
 
                         if (gameState.minefield.isRevealed(x, y)) {
 
-                            val fieldType = gameState.minefield.getFieldType(x, y)
+                            val cellType = gameState.minefield.getCellType(x, y)
 
-                            drawRevealedField(
-                                fieldType = fieldType,
+                            drawRevealedCell(
+                                cellType = cellType,
                                 textMeasurer = textMeasurer,
                                 offset = offset,
-                                fieldSizeWithDensity = fieldSizeWithDensity
+                                cellSizeWithDensity = cellSizeWithDensity
                             )
 
                         } else {
@@ -145,7 +145,7 @@ fun App() {
                             drawRoundRect(
                                 color = Color.LightGray,
                                 topLeft = offset,
-                                size = fieldSizeWithDensity,
+                                size = cellSizeWithDensity,
                                 cornerRadius = CornerRadius(10f),
                                 style = Fill
                             )
@@ -155,7 +155,7 @@ fun App() {
                                 drawFlag(
                                     textMeasurer = textMeasurer,
                                     topLeft = offset,
-                                    size = fieldSizeWithDensity
+                                    size = cellSizeWithDensity
                                 )
                             }
                         }
@@ -166,106 +166,106 @@ fun App() {
     }
 }
 
-private fun DrawScope.drawRevealedField(
-    fieldType: FieldType,
+private fun DrawScope.drawRevealedCell(
+    cellType: CellType,
     textMeasurer: TextMeasurer,
     offset: Offset,
-    fieldSizeWithDensity: Size,
+    cellSizeWithDensity: Size,
 ) {
 
     drawRoundRect(
         color = Color.LightGray,
         topLeft = offset,
-        size = fieldSizeWithDensity,
+        size = cellSizeWithDensity,
         cornerRadius = CornerRadius(10f),
         style = Stroke()
     )
 
-    when (fieldType) {
+    when (cellType) {
 
-        FieldType.MINE ->
+        CellType.MINE ->
             drawCircle(
                 color = Color.Red,
-                radius = fieldSizeWithDensity.width / 3,
+                radius = cellSizeWithDensity.width / 3,
                 center = Offset(
-                    offset.x + fieldSizeWithDensity.width / 2,
-                    offset.y + fieldSizeWithDensity.height / 2
+                    offset.x + cellSizeWithDensity.width / 2,
+                    offset.y + cellSizeWithDensity.height / 2
                 )
             )
 
-        FieldType.ONE ->
+        CellType.ONE ->
             drawNumber(
                 textMeasurer = textMeasurer,
                 number = 1,
                 color = colorOneAdjacentMine,
                 topLeft = offset,
-                size = fieldSizeWithDensity
+                size = cellSizeWithDensity
             )
 
-        FieldType.TWO ->
+        CellType.TWO ->
             drawNumber(
                 textMeasurer = textMeasurer,
                 number = 2,
                 color = colorTwoAdjacentMines,
                 topLeft = offset,
-                size = fieldSizeWithDensity
+                size = cellSizeWithDensity
             )
 
-        FieldType.THREE ->
+        CellType.THREE ->
             drawNumber(
                 textMeasurer = textMeasurer,
                 number = 3,
                 color = colorThreeAdjacentMines,
                 topLeft = offset,
-                size = fieldSizeWithDensity
+                size = cellSizeWithDensity
             )
 
-        FieldType.FOUR ->
+        CellType.FOUR ->
             drawNumber(
                 textMeasurer = textMeasurer,
                 number = 4,
                 color = colorFourAdjacentMines,
                 topLeft = offset,
-                size = fieldSizeWithDensity
+                size = cellSizeWithDensity
             )
 
-        FieldType.FIVE ->
+        CellType.FIVE ->
             drawNumber(
                 textMeasurer = textMeasurer,
                 number = 5,
                 color = colorFiveAdjacentMines,
                 topLeft = offset,
-                size = fieldSizeWithDensity
+                size = cellSizeWithDensity
             )
 
-        FieldType.SIX ->
+        CellType.SIX ->
             drawNumber(
                 textMeasurer = textMeasurer,
                 number = 6,
                 color = colorSixAdjacentMines,
                 topLeft = offset,
-                size = fieldSizeWithDensity
+                size = cellSizeWithDensity
             )
 
-        FieldType.SEVEN ->
+        CellType.SEVEN ->
             drawNumber(
                 textMeasurer = textMeasurer,
                 number = 7,
                 color = colorSevenAdjacentMines,
                 topLeft = offset,
-                size = fieldSizeWithDensity
+                size = cellSizeWithDensity
             )
 
-        FieldType.EIGHT ->
+        CellType.EIGHT ->
             drawNumber(
                 textMeasurer = textMeasurer,
                 number = 8,
                 color = colorEightAdjacentMines,
                 topLeft = offset,
-                size = fieldSizeWithDensity
+                size = cellSizeWithDensity
             )
 
-        FieldType.EMPTY -> Unit
+        CellType.EMPTY -> Unit
     }
 }
 

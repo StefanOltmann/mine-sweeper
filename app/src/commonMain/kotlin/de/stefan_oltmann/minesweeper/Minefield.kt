@@ -22,7 +22,7 @@ package de.stefan_oltmann.minesweeper
 import kotlin.random.Random
 
 // @formatter:off
-private val directions = listOf(
+private val directionsOfAdjacentCells = listOf(
     -1 to -1, 0 to -1, 1 to -1,
     -1 to  0,          1 to  0,
     -1 to  1, 0 to  1, 1 to  1
@@ -38,7 +38,7 @@ class Minefield(
 
     val id: String = "$width-$height-$mineCount-$seed"
 
-    private val matrix: Array<Array<FieldType>> =
+    private val matrix: Array<Array<CellType>> =
         createMatrix(width, height, mineCount, seed)
 
     private val revealedMatrix: Array<Array<Boolean>> =
@@ -64,13 +64,13 @@ class Minefield(
         if (revealedMatrix[x][y])
             return
 
-        /* Mark the current field as revealed */
+        /* Mark the current cell as revealed */
         revealedMatrix[x][y] = true
 
-        /* If the field is empty, recursively reveal adjacent fields */
-        if (matrix[x][y] == FieldType.EMPTY) {
+        /* If the cell is empty, recursively reveal adjacent cells */
+        if (matrix[x][y] == CellType.EMPTY) {
 
-            for ((dx, dy) in directions) {
+            for ((dx, dy) in directionsOfAdjacentCells) {
 
                 val newX = x + dx
                 val newY = y + dy
@@ -88,7 +88,7 @@ class Minefield(
         flaggedMatrix[x][y] = !flaggedMatrix[x][y]
     }
 
-    fun getFieldType(x: Int, y: Int): FieldType = matrix[x][y]
+    fun getCellType(x: Int, y: Int): CellType = matrix[x][y]
 
     companion object {
 
@@ -97,7 +97,7 @@ class Minefield(
             height: Int,
             mineCount: Int,
             seed: Int
-        ): Array<Array<FieldType>> {
+        ): Array<Array<CellType>> {
 
             val matrix = createEmptyMatrix(width, height)
 
@@ -108,15 +108,15 @@ class Minefield(
             return matrix
         }
 
-        private fun createEmptyMatrix(width: Int, height: Int): Array<Array<FieldType>> =
+        private fun createEmptyMatrix(width: Int, height: Int): Array<Array<CellType>> =
             Array(width) {
                 Array(height) {
-                    FieldType.EMPTY
+                    CellType.EMPTY
                 }
             }
 
         private fun placeMines(
-            matrix: Array<Array<FieldType>>,
+            matrix: Array<Array<CellType>>,
             width: Int,
             height: Int,
             mineCount: Int,
@@ -145,14 +145,14 @@ class Minefield(
                     continue
 
                 /*
-                 * Only place mines into empty fields.
+                 * Only place mines into empty cells.
                  *
                  * This guarantees that we have enough mines,
-                 * even if the randomizer selects the same field twice.
+                 * even if the randomizer selects the same cell twice.
                  */
-                if (matrix[x][y] == FieldType.EMPTY) {
+                if (matrix[x][y] == CellType.EMPTY) {
 
-                    matrix[x][y] = FieldType.MINE
+                    matrix[x][y] = CellType.MINE
 
                     placedMinesCount++
                 }
@@ -160,7 +160,7 @@ class Minefield(
         }
 
         private fun placeCounts(
-            matrix: Array<Array<FieldType>>,
+            matrix: Array<Array<CellType>>,
             width: Int,
             height: Int
         ) {
@@ -169,22 +169,22 @@ class Minefield(
                 for (y in 0 until height) {
 
                     /* Minefields stay as they are. */
-                    if (matrix[x][y] == FieldType.MINE)
+                    if (matrix[x][y] == CellType.MINE)
                         continue
 
-                    val mineCount = countMinesInAdjacentFields(matrix, x, y)
+                    val mineCount = countMinesInAdjacentCells(matrix, x, y)
 
-                    matrix[x][y] = FieldType.ofMineCount(mineCount)
+                    matrix[x][y] = CellType.ofMineCount(mineCount)
                 }
             }
         }
 
-        private fun countMinesInAdjacentFields(
-            matrix: Array<Array<FieldType>>,
+        private fun countMinesInAdjacentCells(
+            matrix: Array<Array<CellType>>,
             x: Int,
             y: Int
         ): Int =
-            directions.count { (dx, dy) ->
+            directionsOfAdjacentCells.count { (dx, dy) ->
 
                 hasMine(
                     matrix = matrix,
@@ -194,7 +194,7 @@ class Minefield(
             }
 
         private fun hasMine(
-            matrix: Array<Array<FieldType>>,
+            matrix: Array<Array<CellType>>,
             x: Int,
             y: Int
         ): Boolean {
@@ -204,7 +204,7 @@ class Minefield(
             if (x < 0 || y < 0 || x >= matrix.size || y >= matrix[x].size)
                 return false
 
-            return matrix[x][y] == FieldType.MINE
+            return matrix[x][y] == CellType.MINE
         }
     }
 }
