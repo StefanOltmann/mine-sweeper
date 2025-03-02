@@ -323,7 +323,7 @@ private fun DrawScope.drawFlag(
 ) {
 
     val poleHeight = size.height * 0.5f
-    val poleWidth = size.width * 0.05f
+    val poleWidth = size.width * 0.1f
     val flagWidth = size.width * 0.25f
     val flagHeight = size.height * 0.25f
 
