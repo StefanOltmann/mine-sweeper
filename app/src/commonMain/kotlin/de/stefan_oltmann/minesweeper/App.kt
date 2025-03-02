@@ -89,17 +89,17 @@ fun App() {
                         detectTapGestures(
                             onTap = { offset ->
 
-                                val x = (offset.x / fieldSizeWithDensity.width).toInt()
-                                val y = (offset.y / fieldSizeWithDensity.height).toInt()
-
-                                println("Left Click at: $x & $y")
+                                gameState.hit(
+                                    x = (offset.x / fieldSizeWithDensity.width).toInt(),
+                                    y =  (offset.y / fieldSizeWithDensity.height).toInt()
+                                )
                             },
                             onLongPress = { offset ->
 
-                                val x = (offset.x / fieldSizeWithDensity.width).toInt()
-                                val y = (offset.x / fieldSizeWithDensity.height).toInt()
-
-                                println("Right Click at: $x & $y")
+                                gameState.flag(
+                                    x = (offset.x / fieldSizeWithDensity.width).toInt(),
+                                    y = (offset.x / fieldSizeWithDensity.height).toInt()
+                                )
                             }
                         )
                     }
