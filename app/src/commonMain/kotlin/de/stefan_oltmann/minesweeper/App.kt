@@ -31,8 +31,10 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
@@ -47,7 +49,7 @@ fun App() {
         Map(
             width = 16,
             height = 12,
-            mineCount = 20,
+            mineCount = 80,
             seed = 1
         )
     }
@@ -56,7 +58,7 @@ fun App() {
         modifier = Modifier.padding(16.dp)
     ) {
 
-        Text(text = "Minesweeper " + map.toMapId())
+        Text(text = "Minesweeper " + map.getMapId())
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -98,35 +100,108 @@ fun App() {
                             style = Stroke()
                         )
 
-                        val field = map.get(x, y)
+                        val fieldType = map.get(x, y)
 
-                        if (field == Field.MINE) {
+                        when (fieldType) {
 
-                            drawCircle(
-                                color = Color.Red,
-                                radius = fieldSize / 3,
-                                center = Offset(
-                                    offset.x + fieldSize * density / 2,
-                                    offset.y + fieldSize * density / 2
+                            FieldType.MINE ->
+                                drawCircle(
+                                    color = Color.Red,
+                                    radius = fieldSize / 3,
+                                    center = Offset(
+                                        offset.x + fieldSize * density / 2,
+                                        offset.y + fieldSize * density / 2
+                                    )
                                 )
-                            )
-                        }
 
-//                        if (field == Field.MINE) {
-//
-//                            drawText(
-//                                textMeasurer = textMeasurer,
-//                                text = "*",
-//                                style = TextStyle.Default.copy(
-//                                    fontSize = 50.sp
-//                                ),
-//                                topLeft = offset,
-//                                size = fieldSizeWithDensity
-//                            )
-//                        }
+                            FieldType.ONE ->
+                                drawNumber(
+                                    textMeasurer = textMeasurer,
+                                    number = 1,
+                                    topLeft = offset,
+                                    size = fieldSizeWithDensity
+                                )
+
+                            FieldType.TWO ->
+                                drawNumber(
+                                    textMeasurer = textMeasurer,
+                                    number = 2,
+                                    topLeft = offset,
+                                    size = fieldSizeWithDensity
+                                )
+
+                            FieldType.THREE ->
+                                drawNumber(
+                                    textMeasurer = textMeasurer,
+                                    number = 3,
+                                    topLeft = offset,
+                                    size = fieldSizeWithDensity
+                                )
+
+                            FieldType.FOUR ->
+                                drawNumber(
+                                    textMeasurer = textMeasurer,
+                                    number = 4,
+                                    topLeft = offset,
+                                    size = fieldSizeWithDensity
+                                )
+
+                            FieldType.FIVE ->
+                                drawNumber(
+                                    textMeasurer = textMeasurer,
+                                    number = 5,
+                                    topLeft = offset,
+                                    size = fieldSizeWithDensity
+                                )
+
+                            FieldType.SIX ->
+                                drawNumber(
+                                    textMeasurer = textMeasurer,
+                                    number = 6,
+                                    topLeft = offset,
+                                    size = fieldSizeWithDensity
+                                )
+
+                            FieldType.SEVEN ->
+                                drawNumber(
+                                    textMeasurer = textMeasurer,
+                                    number = 7,
+                                    topLeft = offset,
+                                    size = fieldSizeWithDensity
+                                )
+
+                            FieldType.EIGHT ->
+                                drawNumber(
+                                    textMeasurer = textMeasurer,
+                                    number = 8,
+                                    topLeft = offset,
+                                    size = fieldSizeWithDensity
+                                )
+
+                            FieldType.EMPTY -> Unit
+                        }
                     }
                 }
             }
         }
     }
+}
+
+private fun DrawScope.drawNumber(
+    textMeasurer: TextMeasurer,
+    number: Number,
+    topLeft: Offset,
+    size: Size,
+) {
+
+    drawText(
+        textMeasurer = textMeasurer,
+        text = number.toString(),
+        style = TextStyle.Default.copy(
+            fontSize = 25.sp
+        ),
+        topLeft = topLeft,
+        size = size
+    )
+
 }
