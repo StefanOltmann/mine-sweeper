@@ -153,13 +153,9 @@ private fun DrawScope.drawRevealedCell(
     when (cellType) {
 
         CellType.MINE ->
-            drawCircle(
-                color = Color.Red,
-                radius = cellSizeWithDensity.width / 3,
-                center = Offset(
-                    offset.x + cellSizeWithDensity.width / 2,
-                    offset.y + cellSizeWithDensity.height / 2
-                )
+            drawMine(
+                topLeft = offset,
+                size = cellSizeWithDensity
             )
 
         CellType.ONE ->
@@ -267,6 +263,21 @@ private fun DrawScope.drawNumber(
         style = style,
         topLeft = centeredOffset,
         size = size
+    )
+}
+
+private fun DrawScope.drawMine(
+    topLeft: Offset,
+    size: Size,
+) {
+
+    drawCircle(
+        color = Color.Red,
+        radius = size.width / 3,
+        center = Offset(
+            topLeft.x + size.width / 2,
+            topLeft.y + size.height / 2
+        )
     )
 }
 
