@@ -34,6 +34,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -72,131 +73,149 @@ fun App() {
      */
     redrawState.value
 
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier.fillMaxSize()
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier.fillMaxSize()
+    ) {
+
+        val cellSize = 40f
+
+        val textMeasurer = rememberTextMeasurer()
+
+        val density = LocalDensity.current.density
+
+        val cellSizeWithDensity = Size(
+            width = cellSize * density,
+            height = cellSize * density
+        )
+
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.padding(16.dp)
         ) {
 
-            val cellSize = 40f
-
-            val textMeasurer = rememberTextMeasurer()
-
-            val density = LocalDensity.current.density
-
-            val cellSizeWithDensity = Size(
-                width = cellSize * density,
-                height = cellSize * density
+            Text(
+                text = "Minesweeper",
+                fontSize = 28.sp
             )
 
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.padding(16.dp)
+            Text(
+                text = "PROTOTYPE",
+                color = Color.Red,
+                fontSize = 12.sp
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Button(
+                onClick = {
+
+                    gameState.restart()
+
+                    redrawState.value += 1
+                }
             ) {
 
-                Text(
-                    text = "Minesweeper",
-                    fontSize = 28.sp
-                )
+                Text("Restart")
+            }
 
-                Text(
-                    text = "PROTOTYPE",
-                    color = Color.Red,
-                    fontSize = 12.sp
-                )
+            Spacer(modifier = Modifier.height(16.dp))
 
-                Spacer(modifier = Modifier.height(16.dp))
+            MinefieldCanvas(
+                gameState,
+                cellSize,
+                cellSizeWithDensity,
+                redrawState,
+                textMeasurer
+            )
+        }
+    }
+}
 
-                Button(
-                    onClick = {
+@Composable
+private fun MinefieldCanvas(
+    gameState: GameState,
+    cellSize: Float,
+    cellSizeWithDensity: Size,
+    redrawState: MutableState<Int>,
+    textMeasurer: TextMeasurer
+) {
 
-                        gameState.restart()
+    Canvas(
+        modifier = Modifier
+            .size(
+                width = (gameState.minefield.width * cellSize).dp,
+                height = (gameState.minefield.height * cellSize).dp
+            )
+            .background(colorMapBackground)
+            .border(1.dp, colorMapBorder, RoundedCornerShape(8.dp))
+            .clip(RoundedCornerShape(8.dp))
+            .pointerInput(Unit) {
+                detectTapGestures(
+                    onTap = { offset ->
+
+                        gameState.hit(
+                            x = (offset.x / cellSizeWithDensity.width).toInt(),
+                            y = (offset.y / cellSizeWithDensity.height).toInt()
+                        )
+
+                        redrawState.value += 1
+                    },
+                    onLongPress = { offset ->
+
+                        gameState.flag(
+                            x = (offset.x / cellSizeWithDensity.width).toInt(),
+                            y = (offset.y / cellSizeWithDensity.height).toInt()
+                        )
 
                         redrawState.value += 1
                     }
-                ) {
+                )
+            }
+    ) {
 
-                    Text("Restart")
-                }
+        /*
+         * Force redraw if state changes.
+         *
+         * FIXME This is a hack
+         */
+        redrawState.value
 
-                Spacer(modifier = Modifier.height(16.dp))
+        repeat(gameState.minefield.width) { x ->
+            repeat(gameState.minefield.height) { y ->
 
-                Canvas(
-                    modifier = Modifier
-                        .size(
-                            width = (gameState.minefield.width * cellSize).dp,
-                            height = (gameState.minefield.height * cellSize).dp
+                val offset = Offset(x * cellSizeWithDensity.width, y * cellSizeWithDensity.height)
+
+                if (gameState.minefield.isRevealed(x, y)) {
+
+                    val cellType = gameState.minefield.getCellType(x, y)
+
+                    drawRevealedCell(
+                        cellType = cellType,
+                        textMeasurer = textMeasurer,
+                        offset = offset,
+                        cellSizeWithDensity = cellSizeWithDensity
+                    )
+
+                } else {
+
+                    drawRoundRect(
+                        color = Color.LightGray,
+                        topLeft = offset,
+                        size = cellSizeWithDensity,
+                        cornerRadius = CornerRadius(10f),
+                        style = Fill
+                    )
+
+                    if (gameState.minefield.isFlagged(x, y)) {
+
+                        drawFlag(
+                            textMeasurer = textMeasurer,
+                            topLeft = offset,
+                            size = cellSizeWithDensity
                         )
-                        .background(colorMapBackground)
-                        .border(1.dp, colorMapBorder, RoundedCornerShape(8.dp))
-                        .clip(RoundedCornerShape(8.dp))
-                        .pointerInput(Unit) {
-                            detectTapGestures(
-                                onTap = { offset ->
-
-                                    gameState.hit(
-                                        x = (offset.x / cellSizeWithDensity.width).toInt(),
-                                        y = (offset.y / cellSizeWithDensity.height).toInt()
-                                    )
-
-                                    redrawState.value += 1
-                                },
-                                onLongPress = { offset ->
-
-                                    gameState.flag(
-                                        x = (offset.x / cellSizeWithDensity.width).toInt(),
-                                        y = (offset.y / cellSizeWithDensity.height).toInt()
-                                    )
-
-                                    redrawState.value += 1
-                                }
-                            )
-                        }
-                ) {
-
-                    /*
-                     * Force redraw if state changes.
-                     *
-                     * FIXME This is a hack
-                     */
-                    redrawState.value
-
-                    repeat(gameState.minefield.width) { x ->
-                        repeat(gameState.minefield.height) { y ->
-
-                            val offset = Offset(x * cellSize * density, y * cellSize * density)
-
-                            if (gameState.minefield.isRevealed(x, y)) {
-
-                                val cellType = gameState.minefield.getCellType(x, y)
-
-                                drawRevealedCell(
-                                    cellType = cellType,
-                                    textMeasurer = textMeasurer,
-                                    offset = offset,
-                                    cellSizeWithDensity = cellSizeWithDensity
-                                )
-
-                            } else {
-
-                                drawRoundRect(
-                                    color = Color.LightGray,
-                                    topLeft = offset,
-                                    size = cellSizeWithDensity,
-                                    cornerRadius = CornerRadius(10f),
-                                    style = Fill
-                                )
-
-                                if (gameState.minefield.isFlagged(x, y)) {
-
-                                    drawFlag(
-                                        textMeasurer = textMeasurer,
-                                        topLeft = offset,
-                                        size = cellSizeWithDensity
-                                    )
-                                }
-                            }
-                        }
                     }
+                }
             }
         }
     }
