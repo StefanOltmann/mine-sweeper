@@ -37,6 +37,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.drawText
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -118,6 +119,7 @@ fun App() {
                                 drawNumber(
                                     textMeasurer = textMeasurer,
                                     number = 1,
+                                    color = colorOneAdjacentMine,
                                     topLeft = offset,
                                     size = fieldSizeWithDensity
                                 )
@@ -126,6 +128,7 @@ fun App() {
                                 drawNumber(
                                     textMeasurer = textMeasurer,
                                     number = 2,
+                                    color = colorTwoAdjacentMines,
                                     topLeft = offset,
                                     size = fieldSizeWithDensity
                                 )
@@ -134,6 +137,7 @@ fun App() {
                                 drawNumber(
                                     textMeasurer = textMeasurer,
                                     number = 3,
+                                    color = colorThreeAdjacentMines,
                                     topLeft = offset,
                                     size = fieldSizeWithDensity
                                 )
@@ -142,6 +146,7 @@ fun App() {
                                 drawNumber(
                                     textMeasurer = textMeasurer,
                                     number = 4,
+                                    color = colorFourAdjacentMines,
                                     topLeft = offset,
                                     size = fieldSizeWithDensity
                                 )
@@ -150,6 +155,7 @@ fun App() {
                                 drawNumber(
                                     textMeasurer = textMeasurer,
                                     number = 5,
+                                    color = colorFiveAdjacentMines,
                                     topLeft = offset,
                                     size = fieldSizeWithDensity
                                 )
@@ -158,6 +164,7 @@ fun App() {
                                 drawNumber(
                                     textMeasurer = textMeasurer,
                                     number = 6,
+                                    color = colorSixAdjacentMines,
                                     topLeft = offset,
                                     size = fieldSizeWithDensity
                                 )
@@ -166,6 +173,7 @@ fun App() {
                                 drawNumber(
                                     textMeasurer = textMeasurer,
                                     number = 7,
+                                    color = colorSevenAdjacentMines,
                                     topLeft = offset,
                                     size = fieldSizeWithDensity
                                 )
@@ -174,6 +182,7 @@ fun App() {
                                 drawNumber(
                                     textMeasurer = textMeasurer,
                                     number = 8,
+                                    color = colorEightAdjacentMines,
                                     topLeft = offset,
                                     size = fieldSizeWithDensity
                                 )
@@ -190,17 +199,31 @@ fun App() {
 private fun DrawScope.drawNumber(
     textMeasurer: TextMeasurer,
     number: Number,
+    color: Color,
     topLeft: Offset,
     size: Size,
 ) {
 
+    val text = number.toString()
+
+    val style = TextStyle.Default.copy(
+        color = color,
+        fontWeight = FontWeight.Bold,
+        fontSize = 24.sp
+    )
+
+    val textLayout = textMeasurer.measure(text, style)
+
+    val centeredOffset = Offset(
+        topLeft.x + (size.width - textLayout.size.width) / 2,
+        topLeft.y + (size.height - textLayout.size.height) / 2
+    )
+
     drawText(
         textMeasurer = textMeasurer,
-        text = number.toString(),
-        style = TextStyle.Default.copy(
-            fontSize = 25.sp
-        ),
-        topLeft = topLeft,
+        text = text,
+        style = style,
+        topLeft = centeredOffset,
         size = size
     )
 
