@@ -17,7 +17,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-
 package de.stefan_oltmann.minesweeper
 
 class GameState {
@@ -28,8 +27,20 @@ class GameState {
         width = 10,
         height = 10,
         mineCount = 20,
-        seed = 1
+        seed = (1..Int.MAX_VALUE).random()
     )
+
+    fun restart() {
+
+        gameOver = false
+
+        minefield = Minefield(
+            width = 10,
+            height = 10,
+            mineCount = 20,
+            seed = (1..Int.MAX_VALUE).random()
+        )
+    }
 
     fun hit(x: Int, y: Int) {
 
