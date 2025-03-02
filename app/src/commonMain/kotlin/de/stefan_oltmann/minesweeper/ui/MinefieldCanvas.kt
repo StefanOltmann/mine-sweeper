@@ -46,6 +46,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import de.stefan_oltmann.minesweeper.model.CellType
 import de.stefan_oltmann.minesweeper.model.GameState
+import kotlin.math.PI
+import kotlin.math.cos
+import kotlin.math.sin
 
 @Composable
 fun MinefieldCanvas(
@@ -271,14 +274,47 @@ private fun DrawScope.drawMine(
     size: Size,
 ) {
 
-    drawCircle(
+    drawRoundRect(
         color = Color.Red,
-        radius = size.width / 3,
-        center = Offset(
-            topLeft.x + size.width / 2,
-            topLeft.y + size.height / 2
-        )
+        topLeft = topLeft,
+        size = size,
+        cornerRadius = CornerRadius(10f),
+        style = Fill
     )
+
+    val center = Offset(
+        topLeft.x + size.width / 2,
+        topLeft.y + size.height / 2
+    )
+
+    val radius = size.width / 4
+
+    /* Draw the central circle (the mine itself) */
+    drawCircle(
+        color = Color.Black,
+        radius = radius,
+        center = center
+    )
+
+    /* Draw lines radiating outwards to represent the explosion effect */
+    val lineLength = radius * 1.5f
+
+    val angles = listOf(0f, 45f, 90f, 135f, 180f, 225f, 270f, 315f)
+
+    angles.forEach { angle ->
+
+        val radians = angle * (PI.toFloat() / 180f)
+
+        val endX = center.x + lineLength * cos(radians)
+        val endY = center.y + lineLength * sin(radians)
+
+        drawLine(
+            color = Color.Black,
+            start = center,
+            end = Offset(endX, endY),
+            strokeWidth = 4f
+        )
+    }
 }
 
 private fun DrawScope.drawFlag(
