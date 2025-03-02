@@ -63,33 +63,48 @@ fun App() {
 
     val redrawState = remember { mutableStateOf(0) }
 
-    Column(
-        modifier = Modifier.padding(16.dp)
-    ) {
+    println("REDRAW")
 
-        Text(text = "Minesweeper " + gameState.minefield.id)
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        val cellSize = 40f
-
-        val textMeasurer = rememberTextMeasurer()
-
-        val density = LocalDensity.current.density
-
-        val cellSizeWithDensity = Size(
-            width = cellSize * density,
-            height = cellSize * density
-        )
+    /*
+     * Force redraw if state changes.
+     *
+     * FIXME This is a hack
+     */
+    redrawState.value
 
         Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier.fillMaxSize()
         ) {
 
+            val cellSize = 40f
+
+            val textMeasurer = rememberTextMeasurer()
+
+            val density = LocalDensity.current.density
+
+            val cellSizeWithDensity = Size(
+                width = cellSize * density,
+                height = cellSize * density
+            )
+
             Column(
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.padding(16.dp)
             ) {
+
+                Text(
+                    text = "Minesweeper",
+                    fontSize = 28.sp
+                )
+
+                Text(
+                    text = "PROTOTYPE",
+                    color = Color.Red,
+                    fontSize = 12.sp
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
 
                 Button(
                     onClick = {
@@ -138,9 +153,11 @@ fun App() {
                         }
                 ) {
 
-                    println("REDRAW")
-
-                    /* Force redraw if state changes. */
+                    /*
+                     * Force redraw if state changes.
+                     *
+                     * FIXME This is a hack
+                     */
                     redrawState.value
 
                     repeat(gameState.minefield.width) { x ->
@@ -180,7 +197,6 @@ fun App() {
                             }
                         }
                     }
-                }
             }
         }
     }
