@@ -91,6 +91,13 @@ fun App() {
 
             Spacer(modifier = Modifier.height(16.dp))
 
+            Text(
+                text = "Remaining mines: ${gameState.minefield.getRemainingFlagsCount()}",
+                fontSize = 16.sp
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
             Button(
                 onClick = {
 

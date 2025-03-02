@@ -47,6 +47,9 @@ class Minefield(
             }
         }
 
+    fun getRemainingFlagsCount(): Int =
+        mineCount - flaggedMatrix.flatten().count { it }
+
     fun isRevealed(x: Int, y: Int): Boolean =
         revealedMatrix[x][y]
 
@@ -58,6 +61,9 @@ class Minefield(
 
         /* Mark the current cell as revealed */
         revealedMatrix[x][y] = true
+
+        /* Remove any flags that may have set on non-minefields. */
+        flaggedMatrix[x][y] = false
 
         /* If the cell is empty, recursively reveal adjacent cells */
         if (matrix[x][y] == CellType.EMPTY) {
