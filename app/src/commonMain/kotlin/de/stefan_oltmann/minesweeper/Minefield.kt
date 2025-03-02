@@ -69,6 +69,9 @@ class Minefield(
         flaggedMatrix[x][y] = !flaggedMatrix[x][y]
     }
 
+    fun isMine(x: Int, y: Int): Boolean =
+        matrix[x][y] == FieldType.MINE
+
     fun getFieldType(x: Int, y: Int): FieldType = matrix[x][y]
 
     companion object {
@@ -181,6 +184,7 @@ class Minefield(
         ): Boolean {
 
             /* Return zero for out-of-bounds fields */
+            @Suppress("ComplexCondition")
             if (x < 0 || y < 0 || x >= matrix.size || y >= matrix[x].size)
                 return false
 
