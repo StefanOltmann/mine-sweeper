@@ -82,12 +82,21 @@ class Map(
              */
             val random = Random(seed)
 
+            val protectedXRange = width / 2 - 2 .. width / 2 + 2
+            val protectedYRange = height / 2 - 2 .. height / 2 + 2
+
             var placedMinesCount = 0
 
             while (placedMinesCount < mineCount) {
 
                 val x = random.nextInt(width)
                 val y = random.nextInt(height)
+
+                /*
+                 * Keep the middle free of mines to give players a starting point.
+                 */
+                if (x in protectedXRange && y in protectedYRange)
+                    continue
 
                 /*
                  * Only place mines into empty fields.

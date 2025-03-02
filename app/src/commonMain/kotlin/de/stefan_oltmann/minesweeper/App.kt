@@ -48,9 +48,9 @@ fun App() {
     val map = remember {
 
         Map(
-            width = 16,
-            height = 12,
-            mineCount = 80,
+            width = 15,
+            height = 10,
+            mineCount = 20,
             seed = 1
         )
     }
