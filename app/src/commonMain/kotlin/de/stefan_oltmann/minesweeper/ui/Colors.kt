@@ -17,35 +17,18 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package de.stefan_oltmann.minesweeper
+package de.stefan_oltmann.minesweeper.ui
 
-enum class CellType {
+import androidx.compose.ui.graphics.Color
 
-    EMPTY,
-    MINE,
-    ONE,
-    TWO,
-    THREE,
-    FOUR,
-    FIVE,
-    SIX,
-    SEVEN,
-    EIGHT;
+val colorMapBorder = Color.Black
+val colorMapBackground = Color(0xFFF8F8F8)
 
-    companion object {
-
-        fun ofMineCount(mineCount: Int): CellType =
-            when (mineCount) {
-                0 -> EMPTY
-                1 -> ONE
-                2 -> TWO
-                3 -> THREE
-                4 -> FOUR
-                5 -> FIVE
-                6 -> SIX
-                7 -> SEVEN
-                8 -> EIGHT
-                else -> EMPTY
-            }
-    }
-}
+val colorOneAdjacentMine = Color.Blue
+val colorTwoAdjacentMines = Color(0xFF006400)
+val colorThreeAdjacentMines = Color(0xFFC40000)
+val colorFourAdjacentMines = Color(0xFF000080)
+val colorFiveAdjacentMines = Color(0xFF800000)
+val colorSixAdjacentMines = Color(0xFF008080)
+val colorSevenAdjacentMines = Color.Black
+val colorEightAdjacentMines = Color.Gray

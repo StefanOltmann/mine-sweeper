@@ -17,7 +17,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package de.stefan_oltmann.minesweeper
+package de.stefan_oltmann.minesweeper.model
 
 class GameState {
 

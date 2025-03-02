@@ -17,17 +17,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package de.stefan_oltmann.minesweeper
+package de.stefan_oltmann.minesweeper.model
 
 import kotlin.random.Random
-
-// @formatter:off
-private val directionsOfAdjacentCells = listOf(
-    -1 to -1, 0 to -1, 1 to -1,
-    -1 to  0,          1 to  0,
-    -1 to  1, 0 to  1, 1 to  1
-)
-// @formatter:on
 
 class Minefield(
     val width: Int,

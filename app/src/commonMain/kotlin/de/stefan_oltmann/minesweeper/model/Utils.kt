@@ -17,18 +17,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package de.stefan_oltmann.minesweeper
+package de.stefan_oltmann.minesweeper.model
 
-import androidx.compose.ui.graphics.Color
-
-val colorMapBorder = Color.Black
-val colorMapBackground = Color(0xFFF8F8F8)
-
-val colorOneAdjacentMine = Color.Blue
-val colorTwoAdjacentMines = Color(0xFF006400)
-val colorThreeAdjacentMines = Color(0xFFC40000)
-val colorFourAdjacentMines = Color(0xFF000080)
-val colorFiveAdjacentMines = Color(0xFF800000)
-val colorSixAdjacentMines = Color(0xFF008080)
-val colorSevenAdjacentMines = Color.Black
-val colorEightAdjacentMines = Color.Gray
+// @formatter:off
+val directionsOfAdjacentCells = listOf(
+    -1 to -1, 0 to -1, 1 to -1,
+    -1 to  0,          1 to  0,
+    -1 to  1, 0 to  1, 1 to  1
+)
+// @formatter:on
