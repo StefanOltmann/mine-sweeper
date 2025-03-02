@@ -22,6 +22,7 @@ package de.stefan_oltmann.minesweeper
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
@@ -36,6 +37,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.TextStyle
@@ -48,21 +50,13 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun App() {
 
-    val map = remember {
-
-        Map(
-            width = 10,
-            height = 10,
-            mineCount = 20,
-            seed = 1
-        )
-    }
+    val gameState = remember { GameState() }
 
     Column(
         modifier = Modifier.padding(16.dp)
     ) {
 
-        Text(text = "Minesweeper " + map.getMapId())
+        Text(text = "Minesweeper " + gameState.minefield.id)
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -85,16 +79,34 @@ fun App() {
             Canvas(
                 modifier = Modifier
                     .size(
-                        width = (map.width * fieldSize).dp,
-                        height = (map.height * fieldSize).dp
+                        width = (gameState.minefield.width * fieldSize).dp,
+                        height = (gameState.minefield.height * fieldSize).dp
                     )
                     .background(colorMapBackground)
                     .border(1.dp, colorMapBorder, RoundedCornerShape(8.dp))
                     .clip(RoundedCornerShape(8.dp))
+                    .pointerInput(Unit) {
+                        detectTapGestures(
+                            onTap = { offset ->
+
+                                val x = (offset.x / fieldSizeWithDensity.width).toInt()
+                                val y = (offset.y / fieldSizeWithDensity.height).toInt()
+
+                                println("Left Click at: $x & $y")
+                            },
+                            onLongPress = { offset ->
+
+                                val x = (offset.x / fieldSizeWithDensity.width).toInt()
+                                val y = (offset.x / fieldSizeWithDensity.height).toInt()
+
+                                println("Right Click at: $x & $y")
+                            }
+                        )
+                    }
             ) {
 
-                repeat(map.width) { x ->
-                    repeat(map.height) { y ->
+                repeat(gameState.minefield.width) { x ->
+                    repeat(gameState.minefield.height) { y ->
 
                         val offset = Offset(x * fieldSize * density, y * fieldSize * density)
 
@@ -106,7 +118,7 @@ fun App() {
                             style = Stroke()
                         )
 
-                        val fieldType = map.get(x, y)
+                        val fieldType = gameState.minefield.get(x, y)
 
                         when (fieldType) {
 

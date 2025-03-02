@@ -29,20 +29,19 @@ private val directions = listOf(
 )
 // @formatter:on
 
-class Map(
+class Minefield(
     val width: Int,
     val height: Int,
     val mineCount: Int,
     val seed: Int
 ) {
 
+    val id: String = "$width-$height-$mineCount-$seed"
+
     private val matrix: Array<Array<FieldType>> =
         createMatrix(width, height, mineCount, seed)
 
     fun get(x: Int, y: Int): FieldType = matrix[x][y]
-
-    fun getMapId(): String =
-        "$width-$height-$mineCount-$seed"
 
     companion object {
 
