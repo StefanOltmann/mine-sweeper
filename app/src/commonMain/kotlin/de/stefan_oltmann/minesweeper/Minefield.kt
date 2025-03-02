@@ -41,15 +41,43 @@ class Minefield(
     private val matrix: Array<Array<FieldType>> =
         createMatrix(width, height, mineCount, seed)
 
-    fun get(x: Int, y: Int): FieldType = matrix[x][y]
+    private val revealedMatrix: Array<Array<Boolean>> =
+        Array(width) {
+            Array(height) {
+                false
+            }
+        }
+
+    private val flaggedMatrix: Array<Array<Boolean>> =
+        Array(width) {
+            Array(height) {
+                false
+            }
+        }
+
+    fun isRevealed(x: Int, y: Int): Boolean =
+        revealedMatrix[x][y]
+
+    fun reveal(x: Int, y: Int) {
+        revealedMatrix[x][y] = true
+    }
+
+    fun isFlagged(x: Int, y: Int): Boolean =
+        flaggedMatrix[x][y]
+
+    fun toggleFlag(x: Int, y: Int) {
+        flaggedMatrix[x][y] = !flaggedMatrix[x][y]
+    }
+
+    fun getFieldType(x: Int, y: Int): FieldType = matrix[x][y]
 
     companion object {
 
         private fun createMatrix(
-             width: Int,
-             height: Int,
-             mineCount: Int,
-             seed: Int
+            width: Int,
+            height: Int,
+            mineCount: Int,
+            seed: Int
         ): Array<Array<FieldType>> {
 
             val matrix = createEmptyMatrix(width, height)
@@ -81,8 +109,8 @@ class Minefield(
              */
             val random = Random(seed)
 
-            val protectedXRange = width / 2 - 2 .. width / 2 + 2
-            val protectedYRange = height / 2 - 2 .. height / 2 + 2
+            val protectedXRange = width / 2 - 2..width / 2 + 2
+            val protectedYRange = height / 2 - 2..height / 2 + 2
 
             var placedMinesCount = 0
 

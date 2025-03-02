@@ -11,9 +11,19 @@ class GameState {
 
     fun hit(x: Int, y: Int) {
 
+        /* Ignore clicks on already revealed or flagged fields. */
+        if (minefield.isRevealed(x, y) || minefield.isFlagged(x, y))
+            return
+
+        minefield.reveal(x, y)
     }
 
     fun flag(x: Int, y: Int) {
 
+        /* Only non-revealed fields can be flagged. */
+        if (minefield.isRevealed(x, y))
+            return
+
+        minefield.toggleFlag(x, y)
     }
 }
