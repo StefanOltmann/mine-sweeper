@@ -28,45 +28,48 @@ class Map(
     val seed: Int
 ) {
 
-    val fieldCount = width * height
+    private val matrix: Array<Array<Field>> = createMatrix()
 
-    private val fields: Array<Array<Field>> = createFields()
-
-    fun get(x: Int, y: Int): Field = fields[x][y]
+    fun get(x: Int, y: Int): Field = matrix[x][y]
 
     fun toMapId(): String =
-        "MAP/$width/$height/$mineCount/$seed"
+        "$width-$height-$mineCount-$seed"
 
-    private fun createFields(): Array<Array<Field>> {
+    private fun createMatrix(): Array<Array<Field>> {
 
-            val matrix: Array<Array<Field>> =
-                Array(width) {
-                    Array(height) {
-                        Field.EMPTY
-                    }
-                }
-
-            val random = Random(seed)
-
-            var placedMines = 0
-
-            while (placedMines < mineCount) {
-
-                val x = random.nextInt(width)
-                val y = random.nextInt(height)
-
-                /*
-                 * Only place mines into empty fields.
-                 */
-                if (matrix[x][y] == Field.EMPTY) {
-
-                    matrix[x][y] = Field.MINE
-
-                    placedMines++
+        val matrix: Array<Array<Field>> =
+            Array(width) {
+                Array(height) {
+                    Field.EMPTY
                 }
             }
 
-            return matrix
+        placeMines(matrix)
+
+        return matrix
+    }
+
+    private fun placeMines(matrix: Array<Array<Field>>) {
+
+        val random = Random(seed)
+
+        var placedMinesCount = 0
+
+        while (placedMinesCount < mineCount) {
+
+            val x = random.nextInt(width)
+            val y = random.nextInt(height)
+
+            /*
+             * Only place mines into empty fields.
+             */
+            if (matrix[x][y] == Field.EMPTY) {
+
+                matrix[x][y] = Field.MINE
+
+                placedMinesCount++
+            }
+        }
     }
 }
 

@@ -38,7 +38,6 @@ import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlin.contracts.contract
 
 @Composable
 fun App() {
@@ -48,7 +47,7 @@ fun App() {
         Map(
             width = 16,
             height = 12,
-            mineCount = 10,
+            mineCount = 20,
             seed = 1
         )
     }
@@ -57,7 +56,7 @@ fun App() {
         modifier = Modifier.padding(16.dp)
     ) {
 
-        Text(text = "Minesweeper")
+        Text(text = "Minesweeper " + map.toMapId())
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -83,7 +82,7 @@ fun App() {
                         width = (map.width * fieldSize).dp,
                         height = (map.height * fieldSize).dp
                     )
-                    .border(1.dp, Color.Blue)
+                    .border(1.dp, Color.Black)
             ) {
 
                 repeat(map.width) { x ->
@@ -92,7 +91,7 @@ fun App() {
                         val offset = Offset(x * fieldSize * density, y * fieldSize * density)
 
                         drawRoundRect(
-                            color = Color.Red,
+                            color = Color.LightGray,
                             topLeft = offset,
                             size = fieldSizeWithDensity,
                             cornerRadius = CornerRadius(10f),
@@ -103,16 +102,28 @@ fun App() {
 
                         if (field == Field.MINE) {
 
-                            drawText(
-                                textMeasurer = textMeasurer,
-                                text = "X",
-                                style = TextStyle.Default.copy(
-                                    fontSize = 28.sp
-                                ),
-                                topLeft = offset,
-                                size = fieldSizeWithDensity
+                            drawCircle(
+                                color = Color.Red,
+                                radius = fieldSize / 3,
+                                center = Offset(
+                                    offset.x + fieldSize * density / 2,
+                                    offset.y + fieldSize * density / 2
+                                )
                             )
                         }
+
+//                        if (field == Field.MINE) {
+//
+//                            drawText(
+//                                textMeasurer = textMeasurer,
+//                                text = "*",
+//                                style = TextStyle.Default.copy(
+//                                    fontSize = 50.sp
+//                                ),
+//                                topLeft = offset,
+//                                size = fieldSizeWithDensity
+//                            )
+//                        }
                     }
                 }
             }
