@@ -18,7 +18,6 @@ import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.unit.times
 
 @Composable
 fun App() {
@@ -57,8 +56,8 @@ fun App() {
             Canvas(
                 modifier = Modifier
                     .size(
-                        width = map.width * fieldSize.dp,
-                        height = map.height * fieldSize.dp
+                        width = (map.width * fieldSize).dp,
+                        height = (map.height * fieldSize).dp
                     )
                     .border(1.dp, Color.Blue)
             ) {
