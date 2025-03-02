@@ -1,10 +1,10 @@
 package de.stefan_oltmann.minesweeper
 
 class Map(
-    private val width: Int,
-    private val height: Int,
-    private val mineCount: Int,
-    private val seed: Int
+    val width: Int,
+    val height: Int,
+    val mineCount: Int,
+    val seed: Int
 ) {
 
     val fieldCount = width * height
