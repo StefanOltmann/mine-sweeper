@@ -45,12 +45,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import de.stefan_oltmann.mines.model.GameState
 import de.stefan_oltmann.mines.ui.MinefieldCanvas
-import de.stefan_oltmann.mines.ui.colorBackground
-import de.stefan_oltmann.mines.ui.colorCardBackground
-import de.stefan_oltmann.mines.ui.colorCardBorder
-import de.stefan_oltmann.mines.ui.lightGray
+import de.stefan_oltmann.mines.ui.theme.colorBackground
+import de.stefan_oltmann.mines.ui.theme.colorCardBackground
+import de.stefan_oltmann.mines.ui.theme.colorCardBorder
+import de.stefan_oltmann.mines.ui.theme.lightGray
 
-const val PRODUCT_NAME = "Mines"
+const val APP_TITLE = "Mines"
 
 @Composable
 fun App() {

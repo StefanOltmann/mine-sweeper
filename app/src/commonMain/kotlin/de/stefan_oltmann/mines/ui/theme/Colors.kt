@@ -17,7 +17,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package de.stefan_oltmann.mines.ui
+package de.stefan_oltmann.mines.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

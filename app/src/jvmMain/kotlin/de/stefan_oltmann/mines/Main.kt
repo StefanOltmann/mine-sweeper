@@ -25,7 +25,7 @@ import androidx.compose.ui.window.application
 fun main() = application {
     Window(
         onCloseRequest = ::exitApplication,
-        title = PRODUCT_NAME,
+        title = APP_TITLE,
     ) {
         App()
     }

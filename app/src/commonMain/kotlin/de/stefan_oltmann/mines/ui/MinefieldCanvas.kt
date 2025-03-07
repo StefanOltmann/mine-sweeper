@@ -24,10 +24,11 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.internal.rememberComposableLambda
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
@@ -38,11 +39,27 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.drawText
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.font.SystemFontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import de.stefan_oltmann.mines.model.CellType
 import de.stefan_oltmann.mines.model.GameState
+import de.stefan_oltmann.mines.ui.theme.EconomicaFontFamily
+import de.stefan_oltmann.mines.ui.theme.colorCellBackground
+import de.stefan_oltmann.mines.ui.theme.colorCellBorder
+import de.stefan_oltmann.mines.ui.theme.colorCellHidden
+import de.stefan_oltmann.mines.ui.theme.colorEightAdjacentMines
+import de.stefan_oltmann.mines.ui.theme.colorFiveAdjacentMines
+import de.stefan_oltmann.mines.ui.theme.colorFourAdjacentMines
+import de.stefan_oltmann.mines.ui.theme.colorMine
+import de.stefan_oltmann.mines.ui.theme.colorOneAdjacentMine
+import de.stefan_oltmann.mines.ui.theme.colorSevenAdjacentMines
+import de.stefan_oltmann.mines.ui.theme.colorSixAdjacentMines
+import de.stefan_oltmann.mines.ui.theme.colorThreeAdjacentMines
+import de.stefan_oltmann.mines.ui.theme.colorTwoAdjacentMines
+import de.stefan_oltmann.mines.ui.theme.lightGray
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
@@ -68,6 +85,8 @@ fun MinefieldCanvas(
         width = cellSizeWithDensity.width - CELL_PADDING * 2,
         height = cellSizeWithDensity.height - CELL_PADDING * 2
     )
+
+    val fontFamily = EconomicaFontFamily()
 
     Canvas(
         modifier = Modifier
@@ -121,6 +140,7 @@ fun MinefieldCanvas(
                     drawRevealedCell(
                         cellType = cellType,
                         textMeasurer = textMeasurer,
+                        fontFamily = fontFamily,
                         offset = offset,
                         cellSizeWithDensity = innerCellSizeWithDensity
                     )
@@ -159,6 +179,7 @@ fun MinefieldCanvas(
 private fun DrawScope.drawRevealedCell(
     cellType: CellType,
     textMeasurer: TextMeasurer,
+    fontFamily: FontFamily,
     offset: Offset,
     cellSizeWithDensity: Size,
 ) {
@@ -192,6 +213,7 @@ private fun DrawScope.drawRevealedCell(
                 textMeasurer = textMeasurer,
                 number = 1,
                 color = colorOneAdjacentMine,
+                fontFamily = fontFamily,
                 topLeft = offset,
                 size = cellSizeWithDensity
             )
@@ -201,6 +223,7 @@ private fun DrawScope.drawRevealedCell(
                 textMeasurer = textMeasurer,
                 number = 2,
                 color = colorTwoAdjacentMines,
+                fontFamily = fontFamily,
                 topLeft = offset,
                 size = cellSizeWithDensity
             )
@@ -210,6 +233,7 @@ private fun DrawScope.drawRevealedCell(
                 textMeasurer = textMeasurer,
                 number = 3,
                 color = colorThreeAdjacentMines,
+                fontFamily = fontFamily,
                 topLeft = offset,
                 size = cellSizeWithDensity
             )
@@ -219,6 +243,7 @@ private fun DrawScope.drawRevealedCell(
                 textMeasurer = textMeasurer,
                 number = 4,
                 color = colorFourAdjacentMines,
+                fontFamily = fontFamily,
                 topLeft = offset,
                 size = cellSizeWithDensity
             )
@@ -228,6 +253,7 @@ private fun DrawScope.drawRevealedCell(
                 textMeasurer = textMeasurer,
                 number = 5,
                 color = colorFiveAdjacentMines,
+                fontFamily = fontFamily,
                 topLeft = offset,
                 size = cellSizeWithDensity
             )
@@ -237,6 +263,7 @@ private fun DrawScope.drawRevealedCell(
                 textMeasurer = textMeasurer,
                 number = 6,
                 color = colorSixAdjacentMines,
+                fontFamily = fontFamily,
                 topLeft = offset,
                 size = cellSizeWithDensity
             )
@@ -246,6 +273,7 @@ private fun DrawScope.drawRevealedCell(
                 textMeasurer = textMeasurer,
                 number = 7,
                 color = colorSevenAdjacentMines,
+                fontFamily = fontFamily,
                 topLeft = offset,
                 size = cellSizeWithDensity
             )
@@ -255,6 +283,7 @@ private fun DrawScope.drawRevealedCell(
                 textMeasurer = textMeasurer,
                 number = 8,
                 color = colorEightAdjacentMines,
+                fontFamily = fontFamily,
                 topLeft = offset,
                 size = cellSizeWithDensity
             )
@@ -267,6 +296,7 @@ private fun DrawScope.drawNumber(
     textMeasurer: TextMeasurer,
     number: Number,
     color: Color,
+    fontFamily: FontFamily,
     topLeft: Offset,
     size: Size,
 ) {
@@ -275,6 +305,7 @@ private fun DrawScope.drawNumber(
 
     val style = TextStyle.Default.copy(
         color = color,
+        fontFamily = fontFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 24.sp
     )
