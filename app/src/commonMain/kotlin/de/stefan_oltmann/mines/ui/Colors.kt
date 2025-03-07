@@ -34,11 +34,11 @@ val colorCellBorder = Color(0xFF1A1A1A)
 
 val colorMine = Color.Red
 
-val colorOneAdjacentMine = Color.Blue
-val colorTwoAdjacentMines = Color(0xFF006400)
-val colorThreeAdjacentMines = Color(0xFFC40000)
-val colorFourAdjacentMines = Color(0xFF000080)
-val colorFiveAdjacentMines = Color(0xFF800000)
-val colorSixAdjacentMines = Color(0xFF008080)
-val colorSevenAdjacentMines = Color.Black
-val colorEightAdjacentMines = Color.Gray
+val colorOneAdjacentMine = Color(0xFF64A8FF)
+val colorTwoAdjacentMines = Color(0xFF00C000)
+val colorThreeAdjacentMines = Color(0xFFFF6060)
+val colorFourAdjacentMines = Color(0xFF3B6EFF)
+val colorFiveAdjacentMines = Color(0xFFFF4444)
+val colorSixAdjacentMines = Color(0xFF40E0D0)
+val colorSevenAdjacentMines = Color(0xFF808080)
+val colorEightAdjacentMines = Color(0xFFD0D0D0)
