@@ -25,14 +25,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -41,7 +36,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.rememberTextMeasurer
@@ -54,17 +48,15 @@ import de.stefan_oltmann.mines.ui.icons.IconFlag
 import de.stefan_oltmann.mines.ui.icons.IconPlay
 import de.stefan_oltmann.mines.ui.icons.IconSettings
 import de.stefan_oltmann.mines.ui.icons.IconTimer
-import de.stefan_oltmann.mines.ui.theme.DefaultSpacer
 import de.stefan_oltmann.mines.ui.theme.DoubleSpacer
 import de.stefan_oltmann.mines.ui.theme.EconomicaFontFamily
-import de.stefan_oltmann.mines.ui.theme.FillSpacer
 import de.stefan_oltmann.mines.ui.theme.HalfSpacer
 import de.stefan_oltmann.mines.ui.theme.colorBackground
 import de.stefan_oltmann.mines.ui.theme.colorCardBackground
 import de.stefan_oltmann.mines.ui.theme.colorCardBorder
+import de.stefan_oltmann.mines.ui.theme.colorCardBorderGameOver
 import de.stefan_oltmann.mines.ui.theme.doublePadding
 import de.stefan_oltmann.mines.ui.theme.lightGray
-import mine_sweeper.app.generated.resources.Res
 
 const val APP_TITLE = "Mines"
 
@@ -110,7 +102,7 @@ fun App() {
             Card(
                 backgroundColor = colorCardBackground,
                 shape = RoundedCornerShape(8.dp),
-                border = BorderStroke(1.dp, colorCardBorder),
+                border = BorderStroke(1.dp, if (gameState.gameOver) colorCardBorderGameOver else colorCardBorder),
                 modifier = Modifier.doublePadding()
             ) {
 
@@ -190,7 +182,7 @@ fun App() {
                         )
                     }
 
-                    Spacer(modifier = Modifier.height(16.dp))
+                    DoubleSpacer()
 
                     MinefieldCanvas(
                         gameState,

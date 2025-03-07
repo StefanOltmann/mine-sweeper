@@ -24,8 +24,6 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.internal.rememberComposableLambda
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
@@ -41,12 +39,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.font.SystemFontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import de.stefan_oltmann.mines.model.CellType
 import de.stefan_oltmann.mines.model.GameState
-import de.stefan_oltmann.mines.ui.theme.EconomicaFontFamily
 import de.stefan_oltmann.mines.ui.theme.colorCellBackground
 import de.stefan_oltmann.mines.ui.theme.colorCellBorder
 import de.stefan_oltmann.mines.ui.theme.colorCellHidden
@@ -97,6 +93,10 @@ fun MinefieldCanvas(
                 detectTapGestures(
                     onTap = { offset ->
 
+                        /* Ignore inputs if game is over */
+                        if (gameState.gameOver)
+                            return@detectTapGestures
+
                         gameState.hit(
                             x = (offset.x / cellSizeWithDensity.width).toInt(),
                             y = (offset.y / cellSizeWithDensity.height).toInt()
@@ -105,6 +105,10 @@ fun MinefieldCanvas(
                         redrawState.value += 1
                     },
                     onLongPress = { offset ->
+
+                        /* Ignore inputs if game is over */
+                        if (gameState.gameOver)
+                            return@detectTapGestures
 
                         gameState.flag(
                             x = (offset.x / cellSizeWithDensity.width).toInt(),
