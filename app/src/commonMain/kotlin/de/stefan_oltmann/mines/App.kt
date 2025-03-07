@@ -46,7 +46,6 @@ import de.stefan_oltmann.mines.ui.AppFooter
 import de.stefan_oltmann.mines.ui.MinefieldCanvas
 import de.stefan_oltmann.mines.ui.icons.IconFlag
 import de.stefan_oltmann.mines.ui.icons.IconPlay
-import de.stefan_oltmann.mines.ui.icons.IconSettings
 import de.stefan_oltmann.mines.ui.icons.IconTimer
 import de.stefan_oltmann.mines.ui.theme.DoubleSpacer
 import de.stefan_oltmann.mines.ui.theme.EconomicaFontFamily
@@ -115,13 +114,13 @@ fun App() {
                         verticalAlignment = Alignment.CenterVertically
                     ) {
 
-                        Icon(
-                            imageVector = IconSettings,
-                            contentDescription = null,
-                            tint = lightGray
-                        )
-
-                        DoubleSpacer()
+//                        Icon(
+//                            imageVector = IconSettings,
+//                            contentDescription = null,
+//                            tint = lightGray
+//                        )
+//
+//                        DoubleSpacer()
 
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
