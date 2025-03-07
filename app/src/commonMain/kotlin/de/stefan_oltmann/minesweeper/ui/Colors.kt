@@ -1,7 +1,7 @@
 /*
- * 💣 Minesweeper 💣
+ * 💣 Mines 💣
  * Copyright (C) 2025 Stefan Oltmann
- * https://github.com/StefanOltmann/mine-sweeper
+ * https://github.com/StefanOltmann/mines
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,11 +21,18 @@ package de.stefan_oltmann.minesweeper.ui
 
 import androidx.compose.ui.graphics.Color
 
-val colorMapBorder = Color.Black
-val colorMapBackground = Color(0xFFF8F8F8)
+val lightGray = Color(0xFFF2F2F2)
 
-val colorMineBackground = Color(0xFFFFBFBF)
-val colorMineForeground = Color(0xFF222222)
+val colorBackground = Color(0xFF1E2022)
+
+val colorCardBackground = Color(0xFF1D1D1D)
+val colorCardBorder = Color(0xFF3A3B3C)
+
+val colorCellHidden = Color(0xFF232323)
+val colorCellBackground = Color(0xFF1F1F1F)
+val colorCellBorder = Color(0xFF1A1A1A)
+
+val colorMine = Color.Red
 
 val colorOneAdjacentMine = Color.Blue
 val colorTwoAdjacentMines = Color(0xFF006400)

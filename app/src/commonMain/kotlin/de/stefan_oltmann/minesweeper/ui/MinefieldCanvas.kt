@@ -1,7 +1,7 @@
 /*
- * 💣 Minesweeper 💣
+ * 💣 Mines 💣
  * Copyright (C) 2025 Stefan Oltmann
- * https://github.com/StefanOltmann/mine-sweeper
+ * https://github.com/StefanOltmann/mines
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -50,6 +50,14 @@ import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
 
+private const val CELL_PADDING = 3
+
+private val cellCornerRadius = CornerRadius(4f)
+
+private val cellStroke = Stroke(
+    width = 0F
+)
+
 @Composable
 fun MinefieldCanvas(
     gameState: GameState,
@@ -59,15 +67,17 @@ fun MinefieldCanvas(
     textMeasurer: TextMeasurer
 ) {
 
+    val innerCellSizeWithDensity = cellSizeWithDensity.copy(
+        width = cellSizeWithDensity.width - CELL_PADDING * 2,
+        height = cellSizeWithDensity.height - CELL_PADDING * 2
+    )
+
     Canvas(
         modifier = Modifier
             .size(
                 width = (gameState.minefield.width * cellSize).dp,
                 height = (gameState.minefield.height * cellSize).dp
             )
-            .background(colorMapBackground)
-            .border(1.dp, colorMapBorder, RoundedCornerShape(8.dp))
-            .clip(RoundedCornerShape(8.dp))
             .pointerInput(Unit) {
                 detectTapGestures(
                     onTap = { offset ->
@@ -102,7 +112,10 @@ fun MinefieldCanvas(
         repeat(gameState.minefield.width) { x ->
             repeat(gameState.minefield.height) { y ->
 
-                val offset = Offset(x * cellSizeWithDensity.width, y * cellSizeWithDensity.height)
+                val offset = Offset(
+                    x * cellSizeWithDensity.width + CELL_PADDING,
+                    y * cellSizeWithDensity.height + CELL_PADDING
+                )
 
                 if (gameState.minefield.isRevealed(x, y)) {
 
@@ -112,24 +125,32 @@ fun MinefieldCanvas(
                         cellType = cellType,
                         textMeasurer = textMeasurer,
                         offset = offset,
-                        cellSizeWithDensity = cellSizeWithDensity
+                        cellSizeWithDensity = innerCellSizeWithDensity
                     )
 
                 } else {
 
                     drawRoundRect(
-                        color = Color.LightGray,
+                        color = colorCellHidden,
                         topLeft = offset,
-                        size = cellSizeWithDensity,
-                        cornerRadius = CornerRadius(10f),
+                        size = innerCellSizeWithDensity,
+                        cornerRadius = cellCornerRadius,
                         style = Fill
+                    )
+
+                    drawRoundRect(
+                        color = colorCellBorder,
+                        topLeft = offset,
+                        size = innerCellSizeWithDensity,
+                        cornerRadius = cellCornerRadius,
+                        style = cellStroke
                     )
 
                     if (gameState.minefield.isFlagged(x, y)) {
 
                         drawFlag(
                             topLeft = offset,
-                            size = cellSizeWithDensity
+                            size = innerCellSizeWithDensity
                         )
                     }
                 }
@@ -146,11 +167,19 @@ private fun DrawScope.drawRevealedCell(
 ) {
 
     drawRoundRect(
-        color = Color.LightGray,
+        color = colorCellBackground,
         topLeft = offset,
         size = cellSizeWithDensity,
-        cornerRadius = CornerRadius(10f),
-        style = Stroke()
+        cornerRadius = cellCornerRadius,
+        style = Fill
+    )
+
+    drawRoundRect(
+        color = colorCellBorder,
+        topLeft = offset,
+        size = cellSizeWithDensity,
+        cornerRadius = cellCornerRadius,
+        style = cellStroke
     )
 
     when (cellType) {
@@ -274,14 +303,6 @@ private fun DrawScope.drawMine(
     size: Size,
 ) {
 
-    drawRoundRect(
-        color = colorMineBackground,
-        topLeft = topLeft,
-        size = size,
-        cornerRadius = CornerRadius(10f),
-        style = Fill
-    )
-
     val center = Offset(
         topLeft.x + size.width / 2,
         topLeft.y + size.height / 2
@@ -291,7 +312,7 @@ private fun DrawScope.drawMine(
 
     /* Draw the central circle (the mine itself) */
     drawCircle(
-        color = colorMineForeground,
+        color = colorMine,
         radius = radius,
         center = center
     )
@@ -309,7 +330,7 @@ private fun DrawScope.drawMine(
         val endY = center.y + lineLength * sin(radians)
 
         drawLine(
-            color = colorMineForeground,
+            color = colorMine,
             start = center,
             end = Offset(endX, endY),
             strokeWidth = 4f
@@ -337,7 +358,7 @@ private fun DrawScope.drawFlag(
 
     /* Draw the flagpole */
     drawLine(
-        color = Color.Black,
+        color = lightGray,
         start = poleStart,
         end = poleEnd,
         strokeWidth = poleWidth
@@ -364,6 +385,6 @@ private fun DrawScope.drawFlag(
     /* Draw the flag */
     drawPath(
         path = flagPath,
-        color = Color.Red
+        color = lightGray
     )
 }

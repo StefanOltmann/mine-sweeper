@@ -1,7 +1,7 @@
 /*
- * 💣 Minesweeper 💣
+ * 💣 Mines 💣
  * Copyright (C) 2025 Stefan Oltmann
- * https://github.com/StefanOltmann/mine-sweeper
+ * https://github.com/StefanOltmann/mines
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@ import androidx.compose.ui.window.application
 fun main() = application {
     Window(
         onCloseRequest = ::exitApplication,
-        title = "Minesweeper",
+        title = PRODUCT_NAME,
     ) {
         App()
     }

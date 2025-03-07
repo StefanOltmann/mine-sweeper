@@ -1,7 +1,7 @@
 /*
- * 💣 Minesweeper 💣
+ * 💣 Mines 💣
  * Copyright (C) 2025 Stefan Oltmann
- * https://github.com/StefanOltmann/mine-sweeper
+ * https://github.com/StefanOltmann/mines
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,13 +19,20 @@
 
 package de.stefan_oltmann.minesweeper
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
+import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -33,13 +40,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import de.stefan_oltmann.minesweeper.model.GameState
 import de.stefan_oltmann.minesweeper.ui.MinefieldCanvas
+import de.stefan_oltmann.minesweeper.ui.colorBackground
+import de.stefan_oltmann.minesweeper.ui.colorCardBackground
+import de.stefan_oltmann.minesweeper.ui.colorCardBorder
+import de.stefan_oltmann.minesweeper.ui.lightGray
+
+const val PRODUCT_NAME = "Mines"
 
 @Composable
 fun App() {
@@ -57,68 +69,77 @@ fun App() {
      */
     redrawState.value
 
+    val cellSize = 40f
+
+    val textMeasurer = rememberTextMeasurer()
+
+    val density = LocalDensity.current.density
+
+    val cellSizeWithDensity = Size(
+        width = cellSize * density,
+        height = cellSize * density
+    )
+
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .background(colorBackground)
     ) {
 
-        val cellSize = 40f
-
-        val textMeasurer = rememberTextMeasurer()
-
-        val density = LocalDensity.current.density
-
-        val cellSizeWithDensity = Size(
-            width = cellSize * density,
-            height = cellSize * density
-        )
-
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.padding(16.dp)
+        Card(
+            backgroundColor = colorCardBackground,
+            shape = RoundedCornerShape(8.dp),
+            border = BorderStroke(1.dp, colorCardBorder)
         ) {
 
-            Text(
-                text = "Minesweeper",
-                fontSize = 28.sp
-            )
-
-            Text(
-                text = "PROTOTYPE",
-                color = Color.Red,
-                fontSize = 12.sp
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Text(
-                text = "Remaining mines: ${gameState.minefield.getRemainingFlagsCount()}",
-                fontSize = 16.sp
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Button(
-                onClick = {
-
-                    gameState.restart()
-
-                    redrawState.value += 1
-                }
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.padding(16.dp)
             ) {
 
-                Text("Restart")
+                Row {
+
+                    Text(
+                        text = "Mines",
+                        color = lightGray,
+                        fontSize = 16.sp
+                    )
+
+                    Spacer(modifier = Modifier.width(8.dp))
+
+                    Button(
+                        onClick = {
+
+                            gameState.restart()
+
+                            redrawState.value += 1
+                        }
+                    ) {
+
+                        Text("Restart")
+                    }
+
+                    Spacer(modifier = Modifier.width(8.dp))
+
+                    Text(
+                        text = "Remaining mines: ${gameState.minefield.getRemainingFlagsCount()}",
+                        color = lightGray,
+                        fontSize = 16.sp
+                    )
+
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                MinefieldCanvas(
+                    gameState,
+                    cellSize,
+                    cellSizeWithDensity,
+                    redrawState,
+                    textMeasurer
+                )
             }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            MinefieldCanvas(
-                gameState,
-                cellSize,
-                cellSizeWithDensity,
-                redrawState,
-                textMeasurer
-            )
         }
     }
 }
