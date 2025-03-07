@@ -27,6 +27,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -47,6 +48,7 @@ import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import de.stefan_oltmann.mines.model.GameState
+import de.stefan_oltmann.mines.ui.AppFooter
 import de.stefan_oltmann.mines.ui.MinefieldCanvas
 import de.stefan_oltmann.mines.ui.icons.IconFlag
 import de.stefan_oltmann.mines.ui.icons.IconPlay
@@ -59,6 +61,7 @@ import de.stefan_oltmann.mines.ui.theme.HalfSpacer
 import de.stefan_oltmann.mines.ui.theme.colorBackground
 import de.stefan_oltmann.mines.ui.theme.colorCardBackground
 import de.stefan_oltmann.mines.ui.theme.colorCardBorder
+import de.stefan_oltmann.mines.ui.theme.doublePadding
 import de.stefan_oltmann.mines.ui.theme.lightGray
 
 const val APP_TITLE = "Mines"
@@ -90,102 +93,109 @@ fun App() {
         height = cellSize * density
     )
 
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier
-            .fillMaxSize()
-            .background(colorBackground)
-    ) {
+    Column {
 
-        Card(
-            backgroundColor = colorCardBackground,
-            shape = RoundedCornerShape(8.dp),
-            border = BorderStroke(1.dp, colorCardBorder)
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier
+                .weight(1F)
+                .fillMaxWidth()
+                .background(colorBackground)
         ) {
 
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.padding(16.dp)
+            Card(
+                backgroundColor = colorCardBackground,
+                shape = RoundedCornerShape(8.dp),
+                border = BorderStroke(1.dp, colorCardBorder),
+                modifier = Modifier.doublePadding()
             ) {
 
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.padding(16.dp)
                 ) {
 
-                    Icon(
-                        imageVector = IconSettings,
-                        contentDescription = null,
-                        tint = lightGray
-                    )
-
-                    DoubleSpacer()
-
                     Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.clickable {
-
-                            gameState.restart()
-
-                            redrawState.value += 1
-                        }
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
 
                         Icon(
-                            imageVector = IconPlay,
+                            imageVector = IconSettings,
                             contentDescription = null,
                             tint = lightGray
                         )
 
+                        DoubleSpacer()
+
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.clickable {
+
+                                gameState.restart()
+
+                                redrawState.value += 1
+                            }
+                        ) {
+
+                            Icon(
+                                imageVector = IconPlay,
+                                contentDescription = null,
+                                tint = lightGray
+                            )
+
+                            Text(
+                                text = "New",
+                                color = lightGray,
+                                fontSize = 24.sp
+                            )
+                        }
+
+                        DoubleSpacer()
+
+                        Icon(
+                            imageVector = IconTimer,
+                            contentDescription = null,
+                            tint = lightGray
+                        )
+
+                        HalfSpacer()
+
                         Text(
-                            text = "New",
+                            text = "300",
+                            color = lightGray,
+                            fontSize = 24.sp
+                        )
+
+                        DoubleSpacer()
+
+                        Icon(
+                            imageVector = IconFlag,
+                            contentDescription = null,
+                            tint = lightGray
+                        )
+
+                        HalfSpacer()
+
+                        Text(
+                            text = gameState.minefield.getRemainingFlagsCount().toString(),
                             color = lightGray,
                             fontSize = 24.sp
                         )
                     }
 
-                    DoubleSpacer()
+                    Spacer(modifier = Modifier.height(16.dp))
 
-                    Icon(
-                        imageVector = IconTimer,
-                        contentDescription = null,
-                        tint = lightGray
-                    )
-
-                    HalfSpacer()
-
-                    Text(
-                        text = "300",
-                        color = lightGray,
-                        fontSize = 24.sp
-                    )
-
-                    DoubleSpacer()
-
-                    Icon(
-                        imageVector = IconFlag,
-                        contentDescription = null,
-                        tint = lightGray
-                    )
-
-                    HalfSpacer()
-
-                    Text(
-                        text = gameState.minefield.getRemainingFlagsCount().toString(),
-                        color = lightGray,
-                        fontSize = 24.sp
+                    MinefieldCanvas(
+                        gameState,
+                        cellSize,
+                        cellSizeWithDensity,
+                        redrawState,
+                        textMeasurer
                     )
                 }
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                MinefieldCanvas(
-                    gameState,
-                    cellSize,
-                    cellSizeWithDensity,
-                    redrawState,
-                    textMeasurer
-                )
             }
         }
+
+        AppFooter()
     }
 }
