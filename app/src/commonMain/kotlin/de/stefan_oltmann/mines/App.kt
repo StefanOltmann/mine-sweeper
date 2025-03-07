@@ -21,6 +21,7 @@ package de.stefan_oltmann.mines
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -32,12 +33,14 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.Card
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.rememberTextMeasurer
@@ -45,6 +48,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import de.stefan_oltmann.mines.model.GameState
 import de.stefan_oltmann.mines.ui.MinefieldCanvas
+import de.stefan_oltmann.mines.ui.icons.IconFlag
+import de.stefan_oltmann.mines.ui.icons.IconPlay
+import de.stefan_oltmann.mines.ui.icons.IconSettings
+import de.stefan_oltmann.mines.ui.icons.IconTimer
+import de.stefan_oltmann.mines.ui.theme.DefaultSpacer
+import de.stefan_oltmann.mines.ui.theme.DoubleSpacer
+import de.stefan_oltmann.mines.ui.theme.FillSpacer
+import de.stefan_oltmann.mines.ui.theme.HalfSpacer
 import de.stefan_oltmann.mines.ui.theme.colorBackground
 import de.stefan_oltmann.mines.ui.theme.colorCardBackground
 import de.stefan_oltmann.mines.ui.theme.colorCardBorder
@@ -97,18 +108,21 @@ fun App() {
                 modifier = Modifier.padding(16.dp)
             ) {
 
-                Row {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
 
-                    Text(
-                        text = "Mines",
-                        color = lightGray,
-                        fontSize = 16.sp
+                    Icon(
+                        imageVector = IconSettings,
+                        contentDescription = null,
+                        tint = lightGray
                     )
 
-                    Spacer(modifier = Modifier.width(8.dp))
+                    DoubleSpacer()
 
-                    Button(
-                        onClick = {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.clickable {
 
                             gameState.restart()
 
@@ -116,17 +130,50 @@ fun App() {
                         }
                     ) {
 
-                        Text("Restart")
+                        Icon(
+                            imageVector = IconPlay,
+                            contentDescription = null,
+                            tint = lightGray
+                        )
+
+                        Text(
+                            text = "New",
+                            color = lightGray,
+                            fontSize = 24.sp
+                        )
                     }
 
-                    Spacer(modifier = Modifier.width(8.dp))
+                    DoubleSpacer()
 
-                    Text(
-                        text = "Remaining mines: ${gameState.minefield.getRemainingFlagsCount()}",
-                        color = lightGray,
-                        fontSize = 16.sp
+                    Icon(
+                        imageVector = IconTimer,
+                        contentDescription = null,
+                        tint = lightGray
                     )
 
+                    HalfSpacer()
+
+                    Text(
+                        text = "300",
+                        color = lightGray,
+                        fontSize = 24.sp
+                    )
+
+                    DoubleSpacer()
+
+                    Icon(
+                        imageVector = IconFlag,
+                        contentDescription = null,
+                        tint = lightGray
+                    )
+
+                    HalfSpacer()
+
+                    Text(
+                        text = gameState.minefield.getRemainingFlagsCount().toString(),
+                        color = lightGray,
+                        fontSize = 24.sp
+                    )
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))
