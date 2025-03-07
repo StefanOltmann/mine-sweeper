@@ -71,11 +71,11 @@ kotlin {
 
 android {
 
-    namespace = "de.stefan_oltmann.minesweeper"
+    namespace = "de.stefan_oltmann.mines"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "de.stefan_oltmann.minesweeper"
+        applicationId = "de.stefan_oltmann.mines"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
@@ -108,11 +108,11 @@ compose.desktop {
 
     application {
 
-        mainClass = "de.stefan_oltmann.minesweeper.MainKt"
+        mainClass = "de.stefan_oltmann.mines.MainKt"
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "Minesweeper"
+            packageName = "Mines"
             packageVersion = "1.0.0"
         }
     }

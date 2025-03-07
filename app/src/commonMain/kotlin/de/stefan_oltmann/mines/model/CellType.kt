@@ -17,20 +17,35 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package de.stefan_oltmann.minesweeper
+package de.stefan_oltmann.mines.model
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
+enum class CellType {
 
-class MainActivity : ComponentActivity() {
+    EMPTY,
+    MINE,
+    ONE,
+    TWO,
+    THREE,
+    FOUR,
+    FIVE,
+    SIX,
+    SEVEN,
+    EIGHT;
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    companion object {
 
-        super.onCreate(savedInstanceState)
-
-        setContent {
-            App()
-        }
+        fun ofMineCount(mineCount: Int): CellType =
+            when (mineCount) {
+                0 -> EMPTY
+                1 -> ONE
+                2 -> TWO
+                3 -> THREE
+                4 -> FOUR
+                5 -> FIVE
+                6 -> SIX
+                7 -> SEVEN
+                8 -> EIGHT
+                else -> EMPTY
+            }
     }
 }

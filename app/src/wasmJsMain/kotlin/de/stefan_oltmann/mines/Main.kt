@@ -17,28 +17,15 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package de.stefan_oltmann.minesweeper.ui
+package de.stefan_oltmann.mines
 
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.window.ComposeViewport
+import kotlinx.browser.document
 
-val lightGray = Color(0xFFF2F2F2)
-
-val colorBackground = Color(0xFF1E2022)
-
-val colorCardBackground = Color(0xFF1D1D1D)
-val colorCardBorder = Color(0xFF3A3B3C)
-
-val colorCellHidden = Color(0xFF232323)
-val colorCellBackground = Color(0xFF1F1F1F)
-val colorCellBorder = Color(0xFF1A1A1A)
-
-val colorMine = Color.Red
-
-val colorOneAdjacentMine = Color.Blue
-val colorTwoAdjacentMines = Color(0xFF006400)
-val colorThreeAdjacentMines = Color(0xFFC40000)
-val colorFourAdjacentMines = Color(0xFF000080)
-val colorFiveAdjacentMines = Color(0xFF800000)
-val colorSixAdjacentMines = Color(0xFF008080)
-val colorSevenAdjacentMines = Color.Black
-val colorEightAdjacentMines = Color.Gray
+@OptIn(ExperimentalComposeUiApi::class)
+fun main() {
+    ComposeViewport(document.body!!) {
+        App()
+    }
+}

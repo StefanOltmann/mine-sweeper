@@ -17,7 +17,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package de.stefan_oltmann.minesweeper.model
+package de.stefan_oltmann.mines.model
 
 import kotlin.random.Random
 

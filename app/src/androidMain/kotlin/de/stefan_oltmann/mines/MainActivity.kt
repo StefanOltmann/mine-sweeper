@@ -17,12 +17,20 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package de.stefan_oltmann.minesweeper.model
+package de.stefan_oltmann.mines
 
-// @formatter:off
-val directionsOfAdjacentCells = listOf(
-    -1 to -1, 0 to -1, 1 to -1,
-    -1 to  0,          1 to  0,
-    -1 to  1, 0 to  1, 1 to  1
-)
-// @formatter:on
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+
+class MainActivity : ComponentActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+
+        super.onCreate(savedInstanceState)
+
+        setContent {
+            App()
+        }
+    }
+}

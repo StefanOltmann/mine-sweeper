@@ -17,15 +17,16 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package de.stefan_oltmann.minesweeper
+package de.stefan_oltmann.mines
 
-import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.compose.ui.window.ComposeViewport
-import kotlinx.browser.document
+import androidx.compose.ui.window.Window
+import androidx.compose.ui.window.application
 
-@OptIn(ExperimentalComposeUiApi::class)
-fun main() {
-    ComposeViewport(document.body!!) {
+fun main() = application {
+    Window(
+        onCloseRequest = ::exitApplication,
+        title = PRODUCT_NAME,
+    ) {
         App()
     }
 }

@@ -1,4 +1,4 @@
-# Minesweeper
+# Mines
 
 Basic Minesweeper game made with Kotlin Multiplatform.
 

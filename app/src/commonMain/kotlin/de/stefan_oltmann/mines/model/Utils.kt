@@ -17,16 +17,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package de.stefan_oltmann.minesweeper
+package de.stefan_oltmann.mines.model
 
-import androidx.compose.ui.window.Window
-import androidx.compose.ui.window.application
-
-fun main() = application {
-    Window(
-        onCloseRequest = ::exitApplication,
-        title = PRODUCT_NAME,
-    ) {
-        App()
-    }
-}
+// @formatter:off
+val directionsOfAdjacentCells = listOf(
+    -1 to -1, 0 to -1, 1 to -1,
+    -1 to  0,          1 to  0,
+    -1 to  1, 0 to  1, 1 to  1
+)
+// @formatter:on

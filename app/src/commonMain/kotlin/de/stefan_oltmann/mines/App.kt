@@ -17,11 +17,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package de.stefan_oltmann.minesweeper
+package de.stefan_oltmann.mines
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -44,12 +43,12 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import de.stefan_oltmann.minesweeper.model.GameState
-import de.stefan_oltmann.minesweeper.ui.MinefieldCanvas
-import de.stefan_oltmann.minesweeper.ui.colorBackground
-import de.stefan_oltmann.minesweeper.ui.colorCardBackground
-import de.stefan_oltmann.minesweeper.ui.colorCardBorder
-import de.stefan_oltmann.minesweeper.ui.lightGray
+import de.stefan_oltmann.mines.model.GameState
+import de.stefan_oltmann.mines.ui.MinefieldCanvas
+import de.stefan_oltmann.mines.ui.colorBackground
+import de.stefan_oltmann.mines.ui.colorCardBackground
+import de.stefan_oltmann.mines.ui.colorCardBorder
+import de.stefan_oltmann.mines.ui.lightGray
 
 const val PRODUCT_NAME = "Mines"
 
