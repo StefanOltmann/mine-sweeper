@@ -28,13 +28,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import de.stefan_oltmann.mines.ui.theme.EconomicaFontFamily
 import de.stefan_oltmann.mines.ui.theme.lightGray
 
 @Composable
-fun AppFooter() {
+fun AppFooter(
+    fontFamily: FontFamily
+) {
 
     val uriHandler = LocalUriHandler.current
 
@@ -56,7 +59,7 @@ fun AppFooter() {
         Text(
             text = "made by Stefan Oltmann",
             color = lightGray,
-            fontFamily = EconomicaFontFamily(),
+            fontFamily = fontFamily,
             fontSize = 20.sp
         )
     }

@@ -56,6 +56,7 @@ import de.stefan_oltmann.mines.ui.icons.IconSettings
 import de.stefan_oltmann.mines.ui.icons.IconTimer
 import de.stefan_oltmann.mines.ui.theme.DefaultSpacer
 import de.stefan_oltmann.mines.ui.theme.DoubleSpacer
+import de.stefan_oltmann.mines.ui.theme.EconomicaFontFamily
 import de.stefan_oltmann.mines.ui.theme.FillSpacer
 import de.stefan_oltmann.mines.ui.theme.HalfSpacer
 import de.stefan_oltmann.mines.ui.theme.colorBackground
@@ -63,11 +64,14 @@ import de.stefan_oltmann.mines.ui.theme.colorCardBackground
 import de.stefan_oltmann.mines.ui.theme.colorCardBorder
 import de.stefan_oltmann.mines.ui.theme.doublePadding
 import de.stefan_oltmann.mines.ui.theme.lightGray
+import mine_sweeper.app.generated.resources.Res
 
 const val APP_TITLE = "Mines"
 
 @Composable
 fun App() {
+
+    val fontFamily = EconomicaFontFamily()
 
     val gameState = remember { GameState() }
 
@@ -145,6 +149,7 @@ fun App() {
 
                             Text(
                                 text = "New",
+                                fontFamily = fontFamily,
                                 color = lightGray,
                                 fontSize = 24.sp
                             )
@@ -162,6 +167,7 @@ fun App() {
 
                         Text(
                             text = "300",
+                            fontFamily = fontFamily,
                             color = lightGray,
                             fontSize = 24.sp
                         )
@@ -178,6 +184,7 @@ fun App() {
 
                         Text(
                             text = gameState.minefield.getRemainingFlagsCount().toString(),
+                            fontFamily = fontFamily,
                             color = lightGray,
                             fontSize = 24.sp
                         )
@@ -190,12 +197,13 @@ fun App() {
                         cellSize,
                         cellSizeWithDensity,
                         redrawState,
-                        textMeasurer
+                        textMeasurer,
+                        fontFamily
                     )
                 }
             }
         }
 
-        AppFooter()
+        AppFooter(fontFamily)
     }
 }

@@ -78,15 +78,14 @@ fun MinefieldCanvas(
     cellSize: Float,
     cellSizeWithDensity: Size,
     redrawState: MutableState<Int>,
-    textMeasurer: TextMeasurer
+    textMeasurer: TextMeasurer,
+    fontFamily: FontFamily
 ) {
 
     val innerCellSizeWithDensity = cellSizeWithDensity.copy(
         width = cellSizeWithDensity.width - CELL_PADDING * 2,
         height = cellSizeWithDensity.height - CELL_PADDING * 2
     )
-
-    val fontFamily = EconomicaFontFamily()
 
     Canvas(
         modifier = Modifier
