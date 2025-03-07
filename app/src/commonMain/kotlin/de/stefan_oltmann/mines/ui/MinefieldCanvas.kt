@@ -27,6 +27,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
@@ -349,36 +350,33 @@ private fun DrawScope.drawFlag(
     val centerY = topLeft.y + size.height / 2
 
     /* Adjust so that the pole starts at the bottom center */
-    val poleStart = Offset(centerX, centerY - poleHeight / 2)
-    val poleEnd = Offset(centerX, centerY + poleHeight / 2)
+    val poleStartX = centerX - (poleWidth + flagWidth) / 2
+    val poleStartY = centerY - poleHeight / 2
+    val poleEndY = centerY + poleHeight / 2
 
-    /* Draw the flagpole */
-    drawLine(
-        color = lightGray,
-        start = poleStart,
-        end = poleEnd,
-        strokeWidth = poleWidth
-    )
+    val flagStartX = poleStartX + poleWidth
+    val flagStartY = poleStartY
 
-    /* Define the flag shape (triangle) relative to the top of the pole */
+    /* Define the flag shape with two jagged edges */
     val flagPath = Path().apply {
 
-        /* Start the flag slightly to the right of the pole */
-        val flagStartX = poleStart.x + poleWidth / 2
+        moveTo(poleStartX, poleStartY)
+        lineTo(poleStartX, poleEndY)
+        lineTo(poleStartX + poleWidth, poleEndY)
+        lineTo(poleStartX + poleWidth, poleStartY)
 
-        /* Top of the pole, slightly right */
-        moveTo(flagStartX, poleStart.y)
+        /* Start flag slightly to the right of the pole */
+        moveTo(flagStartX, flagStartY)
 
-        /* Flag tip */
-        lineTo(flagStartX + flagWidth, poleStart.y + flagHeight / 2)
-
-        /* Bottom of the flag */
-        lineTo(flagStartX, poleStart.y + flagHeight)
+        lineTo(flagStartX + flagWidth, flagStartY)
+        lineTo(flagStartX + flagWidth * 0.6f, flagStartY + flagHeight * 0.5f)
+        lineTo(flagStartX + flagWidth, flagStartY + flagHeight)
+        lineTo(flagStartX, flagStartY + flagHeight)
 
         close()
     }
 
-    /* Draw the flag */
+    /* Draw the entire shape */
     drawPath(
         path = flagPath,
         color = lightGray

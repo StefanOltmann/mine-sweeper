@@ -21,7 +21,7 @@ package de.stefan_oltmann.mines.ui
 
 import androidx.compose.ui.graphics.Color
 
-val lightGray = Color(0xFFF2F2F2)
+val lightGray = Color(0xFFF8F8F8)
 
 val colorBackground = Color(0xFF1E2022)
 
