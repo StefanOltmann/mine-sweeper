@@ -19,14 +19,18 @@
 
 package de.stefan_oltmann.mines.model
 
+import de.stefan_oltmann.mines.DEFAULT_MAP_HEIGHT
+import de.stefan_oltmann.mines.DEFAULT_MAP_WIDTH
+import de.stefan_oltmann.mines.DEFAULT_MINE_COUNT
+
 class GameState {
 
     var gameOver = false
 
     var minefield = Minefield(
-        width = 10,
-        height = 10,
-        mineCount = 20,
+        width = DEFAULT_MAP_WIDTH,
+        height = DEFAULT_MAP_HEIGHT,
+        mineCount = DEFAULT_MINE_COUNT,
         seed = (1..Int.MAX_VALUE).random()
     )
 
@@ -35,9 +39,9 @@ class GameState {
         gameOver = false
 
         minefield = Minefield(
-            width = 10,
-            height = 10,
-            mineCount = 20,
+            width = DEFAULT_MAP_WIDTH,
+            height = DEFAULT_MAP_HEIGHT,
+            mineCount = DEFAULT_MINE_COUNT,
             seed = (1..Int.MAX_VALUE).random()
         )
     }

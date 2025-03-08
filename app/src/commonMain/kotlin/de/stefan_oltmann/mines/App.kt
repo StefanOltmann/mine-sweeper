@@ -57,8 +57,6 @@ import de.stefan_oltmann.mines.ui.theme.colorCardBorderGameOver
 import de.stefan_oltmann.mines.ui.theme.doublePadding
 import de.stefan_oltmann.mines.ui.theme.lightGray
 
-const val APP_TITLE = "Mines"
-
 @Composable
 fun App() {
 
