@@ -30,6 +30,16 @@ class Minefield(
 
     // val id: String = "$width-$height-$mineCount-$seed"
 
+    init {
+
+        /*
+         * Protection from infinite loop on mine placement.
+         */
+        check(mineCount <= width * height) {
+            "Too many mines. Wanted $mineCount, but must be less than ${width.times(height)}!"
+        }
+    }
+
     private val matrix: Array<Array<CellType>> =
         createMatrix(width, height, mineCount, seed)
 
