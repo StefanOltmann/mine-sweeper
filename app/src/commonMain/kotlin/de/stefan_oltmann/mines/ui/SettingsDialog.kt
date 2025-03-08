@@ -28,6 +28,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -47,6 +48,7 @@ import androidx.compose.ui.unit.sp
 import de.stefan_oltmann.mines.FONT_SIZE
 import de.stefan_oltmann.mines.ui.icons.IconCheck
 import de.stefan_oltmann.mines.ui.icons.IconHeight
+import de.stefan_oltmann.mines.ui.icons.IconMines
 import de.stefan_oltmann.mines.ui.icons.IconWidth
 import de.stefan_oltmann.mines.ui.theme.buttonSize
 import de.stefan_oltmann.mines.ui.theme.colorCardBackground
@@ -66,6 +68,7 @@ fun SettingsDialog(
 
     val width = remember { mutableStateOf(10f) }
     val height = remember { mutableStateOf(10f) }
+    val mineCount = remember { mutableStateOf(20f) }
 
     Box(
         contentAlignment = Alignment.Center,
@@ -82,6 +85,7 @@ fun SettingsDialog(
             shape = defaultRoundedCornerShape,
             border = BorderStroke(1.dp, colorCardBorder),
             modifier = Modifier
+                .widthIn(max = 400.dp)
                 .doublePadding()
                 .noRippleClickable {
                     /* Catch all clicks */
@@ -164,20 +168,74 @@ fun SettingsDialog(
                     )
                 }
 
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier
-                        .height(buttonSize)
-                        .widthIn(min = 300.dp)
-                        .background(colorCellHidden, defaultRoundedCornerShape)
-                        .noRippleClickable(onClose)
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(defaultSpacing),
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(horizontal = defaultSpacing)
                 ) {
 
                     Icon(
-                        imageVector = IconCheck,
+                        imageVector = IconMines,
                         contentDescription = null,
-                        tint = Color.Green
+                        tint = lightGray,
+                        modifier = Modifier.size(24.dp)
                     )
+
+                    Slider(
+                        value = mineCount.value,
+                        onValueChange = {
+                            mineCount.value = it
+                        },
+                        valueRange = 5f..99f,
+                        colors = sliderColors,
+                        modifier = Modifier.weight(1F)
+                    )
+
+                    Text(
+                        text = mineCount.value.toInt().toString(),
+                        fontFamily = fontFamily,
+                        color = lightGray,
+                        fontSize = FONT_SIZE.sp,
+                        textAlign = TextAlign.Right,
+                        modifier = Modifier.widthIn(min = 20.dp)
+                    )
+                }
+
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(defaultSpacing)
+                ) {
+
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier
+                            .height(buttonSize)
+                            .weight(0.5f)
+                            .background(colorCellHidden, defaultRoundedCornerShape)
+                            .noRippleClickable(onClose)
+                    ) {
+
+                        Icon(
+                            imageVector = IconCheck,
+                            contentDescription = null,
+                            tint = Color.Green
+                        )
+                    }
+
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier
+                            .height(buttonSize)
+                            .weight(0.5f)
+                            .background(colorCellHidden, defaultRoundedCornerShape)
+                            .noRippleClickable(onClose)
+                    ) {
+
+                        Icon(
+                            imageVector = IconCheck,
+                            contentDescription = null,
+                            tint = Color.Green
+                        )
+                    }
                 }
             }
         }
