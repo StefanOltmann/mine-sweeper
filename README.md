@@ -6,7 +6,6 @@ Usage:
 ------
 Use long-press to mark as mine
 
-
 ## Acknowledgements
 
 * JetBrains for making [Kotlin](https://kotlinlang.org).
