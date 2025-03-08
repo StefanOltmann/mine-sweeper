@@ -22,11 +22,21 @@ package de.stefan_oltmann.mines.model
 import de.stefan_oltmann.mines.DEFAULT_MAP_HEIGHT
 import de.stefan_oltmann.mines.DEFAULT_MAP_WIDTH
 import de.stefan_oltmann.mines.DEFAULT_MINE_COUNT
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+
+private val gameStateScope = CoroutineScope(Dispatchers.Default)
 
 class GameState {
 
-//    private val _elapsedTime = MutableStateFlow(0) // Timer in seconds
-//    val elapsedTime = _elapsedTime.asStateFlow()
+    private val _elapsedSeconds = MutableStateFlow(0)
+    val elapsedSeconds = _elapsedSeconds.asStateFlow()
+
+    private var isTimerRunning = false
 
     var gameOver = false
 
@@ -39,7 +49,29 @@ class GameState {
         seed = (1..Int.MAX_VALUE).random()
     )
 
+    private fun startTimer() {
+
+        if (isTimerRunning)
+            return
+
+        isTimerRunning = true
+
+        gameStateScope.launch {
+
+            while (isTimerRunning) {
+
+                delay(1000L)
+
+                if (isTimerRunning)
+                    _elapsedSeconds.value += 1
+            }
+        }
+    }
+
     fun restart() {
+
+        isTimerRunning = false
+        _elapsedSeconds.value = 0
 
         gameOver = false
         gameWon = false
@@ -58,6 +90,10 @@ class GameState {
         if (gameOver || gameWon)
             return
 
+        /* Start timer on first interaction after reset. */
+        if (!isTimerRunning)
+            startTimer()
+
         /* Ignore clicks on already revealed or flagged cells. */
         if (minefield.isRevealed(x, y) || minefield.isFlagged(x, y))
             return
@@ -68,6 +104,8 @@ class GameState {
         /* Check game over condition */
         if (minefield.isMine(x, y)) {
 
+            isTimerRunning = false
+
             gameOver = true
 
             /* Show the user all mines. */
@@ -77,8 +115,12 @@ class GameState {
         }
 
         /* Check win condition */
-        if (minefield.isAllFieldsRevealed())
+        if (minefield.isAllFieldsRevealed()) {
+
+            isTimerRunning = false
+
             gameWon = true
+        }
     }
 
     fun flag(x: Int, y: Int) {
@@ -86,6 +128,10 @@ class GameState {
         /* Ignore further inputs if game ended. */
         if (gameOver || gameWon)
             return
+
+        /* Start timer on first interaction after reset. */
+        if (!isTimerRunning)
+            startTimer()
 
         /* Only non-revealed fields can be flagged. */
         if (minefield.isRevealed(x, y))

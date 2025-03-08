@@ -26,7 +26,6 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,7 +34,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import de.stefan_oltmann.mines.FONT_SIZE
-import de.stefan_oltmann.mines.model.GameState
 import de.stefan_oltmann.mines.ui.icons.IconFlag
 import de.stefan_oltmann.mines.ui.icons.IconPlay
 import de.stefan_oltmann.mines.ui.icons.IconTimer
@@ -47,13 +45,12 @@ import de.stefan_oltmann.mines.ui.theme.lightGray
 
 @Composable
 fun Toolbar(
-    gameState: GameState,
-    redrawState: MutableState<Int>,
-    fontFamily: FontFamily
+    highlightNewButton: Boolean,
+    elapsedSeconds: Int,
+    remainingFlagsCount: Int,
+    fontFamily: FontFamily,
+    restartGame: () -> Unit
 ) {
-
-    /* Hack */
-    redrawState.value
 
     Row(
         verticalAlignment = Alignment.CenterVertically
@@ -67,7 +64,7 @@ fun Toolbar(
 //
 //        DefaultSpacer()
 
-        val newButtonFrontColor = if (gameState.gameOver || gameState.gameWon)
+        val newButtonFrontColor = if (highlightNewButton)
             Color.Yellow
         else
             lightGray
@@ -76,12 +73,7 @@ fun Toolbar(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .border(1.dp, newButtonFrontColor, defaultRoundedCornerShape)
-                .clickable {
-
-                gameState.restart()
-
-                redrawState.value += 1
-            }
+                .clickable(onClick = restartGame)
         ) {
 
             Icon(
@@ -111,12 +103,12 @@ fun Toolbar(
         HalfSpacer()
 
         Text(
-            text = "99999",
+            text = elapsedSeconds.toString(),
             fontFamily = fontFamily,
             color = lightGray,
             fontSize = FONT_SIZE.sp,
             textAlign = TextAlign.Right,
-            modifier = Modifier.widthIn(min = 28.dp)
+            modifier = Modifier.widthIn(min = 20.dp)
         )
 
         DoubleSpacer()
@@ -130,7 +122,7 @@ fun Toolbar(
         HalfSpacer()
 
         Text(
-            text = gameState.minefield.getRemainingFlagsCount().toString(),
+            text = remainingFlagsCount.toString(),
             fontFamily = fontFamily,
             color = lightGray,
             fontSize = FONT_SIZE.sp,

@@ -26,6 +26,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -54,6 +56,8 @@ fun App() {
     val fontFamily = EconomicaFontFamily()
 
     val gameState = remember { GameState() }
+
+    val elapsedSeconds by gameState.elapsedSeconds.collectAsState()
 
     val redrawState = remember { mutableStateOf(0) }
 
@@ -104,9 +108,17 @@ fun App() {
                 ) {
 
                     Toolbar(
-                        gameState,
-                        redrawState,
-                        fontFamily
+                        highlightNewButton = gameState.gameOver || gameState.gameWon,
+                        elapsedSeconds = elapsedSeconds,
+                        remainingFlagsCount = gameState.minefield.getRemainingFlagsCount(),
+                        fontFamily = fontFamily,
+                        restartGame = {
+
+                            gameState.restart()
+
+                            // HACK
+                            redrawState.value += 1
+                        }
                     )
 
                     DoubleSpacer()
