@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredWidthIn
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -33,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import de.stefan_oltmann.mines.ui.theme.lightGray
@@ -63,7 +65,9 @@ fun AppFooter(
             text = "made by Stefan Oltmann",
             color = lightGray,
             fontFamily = fontFamily,
-            fontSize = 20.sp
+            fontSize = 20.sp,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.requiredWidthIn(min = 180.dp)
         )
     }
 }
