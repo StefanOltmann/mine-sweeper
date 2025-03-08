@@ -27,4 +27,4 @@ const val FONT_SIZE = 20
 
 const val DEFAULT_MAP_WIDTH = 10
 const val DEFAULT_MAP_HEIGHT = 10
-const val DEFAULT_MINE_COUNT = 20
+const val DEFAULT_MINE_COUNT = 10

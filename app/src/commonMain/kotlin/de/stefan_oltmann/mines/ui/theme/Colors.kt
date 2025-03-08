@@ -23,17 +23,17 @@ import androidx.compose.ui.graphics.Color
 
 val lightGray = Color(0xFFF8F8F8)
 
-val colorBackground = Color(0xFF1E2022)
+val colorBackground = Color(0xFF111111)
 
 val colorCardBackground = Color(0xFF1D1D1D)
 val colorCardBorder = Color(0xFF3A3B3C)
 
+val colorCellHidden = Color(0xFF2D2D2D)
+val colorCellBackground = Color(0xFF1F1F1F)
+val colorCellBorder = Color(0xFF3F3F3F)
+
 val colorCardBorderGameOver = Color.Red
 val colorCardBorderGameWon = Color.Green
-
-val colorCellHidden = Color(0xFF232323)
-val colorCellBackground = Color(0xFF1F1F1F)
-val colorCellBorder = Color(0xFF1A1A1A)
 
 val colorMine = Color.Red
 
