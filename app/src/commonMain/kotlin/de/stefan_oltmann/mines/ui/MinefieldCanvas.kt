@@ -327,8 +327,8 @@ private fun DrawScope.drawMine(
 ) {
 
     val center = Offset(
-        topLeft.x + size.width / 2,
-        topLeft.y + size.height / 2
+        x = topLeft.x + size.width / 2,
+        y = topLeft.y + size.height / 2
     )
 
     val radius = size.width / 5
@@ -383,7 +383,6 @@ private fun DrawScope.drawFlag(
     val poleEndY = centerY + poleHeight / 2
 
     val flagStartX = poleStartX + poleWidth
-    val flagStartY = poleStartY
 
     /* Define the flag shape with two jagged edges */
     val flagPath = Path().apply {
@@ -394,12 +393,12 @@ private fun DrawScope.drawFlag(
         lineTo(poleStartX + poleWidth, poleStartY)
 
         /* Start flag slightly to the right of the pole */
-        moveTo(flagStartX, flagStartY)
+        moveTo(flagStartX, poleStartY)
 
-        lineTo(flagStartX + flagWidth, flagStartY)
-        lineTo(flagStartX + flagWidth * 0.6f, flagStartY + flagHeight * 0.5f)
-        lineTo(flagStartX + flagWidth, flagStartY + flagHeight)
-        lineTo(flagStartX, flagStartY + flagHeight)
+        lineTo(flagStartX + flagWidth, poleStartY)
+        lineTo(flagStartX + flagWidth * 0.6f, poleStartY + flagHeight * 0.5f)
+        lineTo(flagStartX + flagWidth, poleStartY + flagHeight)
+        lineTo(flagStartX, poleStartY + flagHeight)
 
         close()
     }
