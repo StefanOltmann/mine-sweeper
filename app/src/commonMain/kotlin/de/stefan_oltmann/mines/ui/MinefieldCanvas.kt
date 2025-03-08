@@ -41,6 +41,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import de.stefan_oltmann.mines.addRightClickListener
 import de.stefan_oltmann.mines.model.CellType
 import de.stefan_oltmann.mines.model.GameState
 import de.stefan_oltmann.mines.ui.theme.colorCellBackground
@@ -110,6 +111,15 @@ fun MinefieldCanvas(
                         redrawState.value += 1
                     }
                 )
+            }
+            .addRightClickListener { offset ->
+
+                gameState.flag(
+                    x = (offset.x / cellSizeWithDensity.width).toInt(),
+                    y = (offset.y / cellSizeWithDensity.height).toInt()
+                )
+
+                redrawState.value += 1
             }
     ) {
 
