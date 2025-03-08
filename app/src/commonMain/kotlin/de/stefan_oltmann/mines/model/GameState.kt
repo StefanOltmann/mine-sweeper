@@ -46,8 +46,11 @@ class GameState {
         width = DEFAULT_MAP_WIDTH,
         height = DEFAULT_MAP_HEIGHT,
         mineCount = DEFAULT_MINE_COUNT,
-        seed = (1..Int.MAX_VALUE).random()
+        seed = generateSeed()
     )
+
+    private fun generateSeed() =
+        (1..Int.MAX_VALUE).random()
 
     private fun startTimer() {
 
@@ -80,7 +83,7 @@ class GameState {
             width = DEFAULT_MAP_WIDTH,
             height = DEFAULT_MAP_HEIGHT,
             mineCount = DEFAULT_MINE_COUNT,
-            seed = (1..Int.MAX_VALUE).random()
+            seed = generateSeed()
         )
     }
 
