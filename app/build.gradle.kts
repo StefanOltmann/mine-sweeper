@@ -54,13 +54,22 @@ kotlin {
         }
 
         commonMain.dependencies {
+
+            /* Compose UI */
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material)
             implementation(compose.ui)
             implementation(compose.components.resources)
+
+            /* Coroutines */
             implementation(libs.kotlinx.coroutines.core)
+
+            /* Datetime */
             implementation(libs.kotlinx.datetime)
+
+            /* Settings */
+            implementation(libs.multiplatformSettings)
         }
 
         jvmMain.dependencies {
