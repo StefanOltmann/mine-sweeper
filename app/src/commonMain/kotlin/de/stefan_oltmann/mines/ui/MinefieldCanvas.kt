@@ -333,32 +333,34 @@ private fun DrawScope.drawMine(
 
     val radius = size.width / 5
 
-    /* Draw the central circle (the mine itself) */
     drawCircle(
         color = colorMine,
         radius = radius,
         center = center
     )
 
-    /* Draw lines radiating outwards to represent the explosion effect */
     val lineLength = radius * 1.5f
 
     val angles = listOf(0f, 45f, 90f, 135f, 180f, 225f, 270f, 315f)
 
-    angles.forEach { angle ->
+    val explosionRaysPath = Path().apply {
 
-        val radians = angle * (PI.toFloat() / 180f)
+        angles.forEach { angle ->
 
-        val endX = center.x + lineLength * cos(radians)
-        val endY = center.y + lineLength * sin(radians)
+            val radians = angle * (PI.toFloat() / 180f)
+            val endX = center.x + lineLength * cos(radians)
+            val endY = center.y + lineLength * sin(radians)
 
-        drawLine(
-            color = colorMine,
-            start = center,
-            end = Offset(endX, endY),
-            strokeWidth = 4f
-        )
+            moveTo(center.x, center.y)
+            lineTo(endX, endY)
+        }
     }
+
+    drawPath(
+        path = explosionRaysPath,
+        color = colorMine,
+        style = Stroke(width = 4f)
+    )
 }
 
 private fun DrawScope.drawFlag(
