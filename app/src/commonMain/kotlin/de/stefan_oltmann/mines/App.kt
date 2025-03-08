@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import de.stefan_oltmann.mines.model.GameState
 import de.stefan_oltmann.mines.ui.AppFooter
 import de.stefan_oltmann.mines.ui.MinefieldCanvas
+import de.stefan_oltmann.mines.ui.SettingsDialog
 import de.stefan_oltmann.mines.ui.Toolbar
 import de.stefan_oltmann.mines.ui.theme.EconomicaFontFamily
 import de.stefan_oltmann.mines.ui.theme.colorBackground
@@ -59,6 +60,8 @@ fun App() {
     val elapsedSeconds by gameState.elapsedSeconds.collectAsState()
 
     val redrawState = remember { mutableStateOf(0) }
+
+    val showSettings = remember { mutableStateOf(false) }
 
     println("REDRAW")
 
@@ -112,8 +115,7 @@ fun App() {
                         remainingFlagsCount = gameState.minefield.getRemainingFlagsCount(),
                         fontFamily = fontFamily,
                         showSettings = {
-
-                            // TODO
+                            showSettings.value = true
                         },
                         restartGame = {
 
@@ -134,6 +136,14 @@ fun App() {
                     )
                 }
             }
+
+            if (showSettings.value)
+                SettingsDialog(
+                    fontFamily = fontFamily,
+                    onClose = {
+                        showSettings.value = false
+                    }
+                )
         }
 
         AppFooter(fontFamily)

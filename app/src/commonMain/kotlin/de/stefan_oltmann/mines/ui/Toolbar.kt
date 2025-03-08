@@ -19,7 +19,6 @@
 
 package de.stefan_oltmann.mines.ui
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -68,7 +67,7 @@ fun Toolbar(
             contentAlignment = Alignment.Center,
             modifier = Modifier
                 .size(buttonSize)
-                .clickable(onClick = restartGame)
+                .noRippleClickable(onClick = restartGame)
         ) {
 
             Icon(
@@ -85,7 +84,7 @@ fun Toolbar(
             contentAlignment = Alignment.Center,
             modifier = Modifier
                 .size(buttonSize)
-                .clickable(onClick = showSettings)
+                .noRippleClickable(onClick = showSettings)
         ) {
 
             Icon(
@@ -101,7 +100,7 @@ fun Toolbar(
             contentAlignment = Alignment.Center,
             modifier = Modifier
                 .size(buttonSize)
-                .clickable {
+                .noRippleClickable {
                     uriHandler.openUri("https://github.com/sponsors/StefanOltmann")
                 }
         ) {
