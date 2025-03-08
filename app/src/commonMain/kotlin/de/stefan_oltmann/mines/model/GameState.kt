@@ -28,13 +28,17 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
 
 private val gameStateScope = CoroutineScope(Dispatchers.Default)
 
 class GameState {
 
-    private val _elapsedSeconds = MutableStateFlow(0)
+    private val _elapsedSeconds = MutableStateFlow(0L)
     val elapsedSeconds = _elapsedSeconds.asStateFlow()
+
+    private var gameStartTime = Instant.DISTANT_PAST
 
     private var isTimerRunning = false
 
@@ -61,12 +65,19 @@ class GameState {
 
         gameStateScope.launch {
 
+            gameStartTime = Clock.System.now()
+
             while (isTimerRunning) {
 
-                delay(1000L)
+                /*
+                 * We try to prevent shifts that occur from delay() not being super-accurate.
+                 */
 
-                if (isTimerRunning)
-                    _elapsedSeconds.value += 1
+                val result = Clock.System.now() - gameStartTime
+
+                _elapsedSeconds.value = result.inWholeSeconds
+
+                delay(1000)
             }
         }
     }

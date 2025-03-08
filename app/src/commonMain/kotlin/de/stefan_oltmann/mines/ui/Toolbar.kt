@@ -49,7 +49,7 @@ import de.stefan_oltmann.mines.ui.theme.lightGray
 @Composable
 fun Toolbar(
     highlightRestartButton: Boolean,
-    elapsedSeconds: Int,
+    elapsedSeconds: Long,
     remainingFlagsCount: Int,
     fontFamily: FontFamily,
     showSettings: () -> Unit,
