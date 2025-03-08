@@ -19,6 +19,7 @@
 
 package de.stefan_oltmann.mines.ui
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.widthIn
@@ -28,6 +29,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -37,8 +39,10 @@ import de.stefan_oltmann.mines.model.GameState
 import de.stefan_oltmann.mines.ui.icons.IconFlag
 import de.stefan_oltmann.mines.ui.icons.IconPlay
 import de.stefan_oltmann.mines.ui.icons.IconTimer
+import de.stefan_oltmann.mines.ui.theme.DefaultSpacer
 import de.stefan_oltmann.mines.ui.theme.DoubleSpacer
 import de.stefan_oltmann.mines.ui.theme.HalfSpacer
+import de.stefan_oltmann.mines.ui.theme.defaultRoundedCornerShape
 import de.stefan_oltmann.mines.ui.theme.lightGray
 
 @Composable
@@ -47,6 +51,9 @@ fun Toolbar(
     redrawState: MutableState<Int>,
     fontFamily: FontFamily
 ) {
+
+    /* Hack */
+    redrawState.value
 
     Row(
         verticalAlignment = Alignment.CenterVertically
@@ -60,9 +67,16 @@ fun Toolbar(
 //
 //        DefaultSpacer()
 
+        val newButtonFrontColor = if (gameState.gameOver || gameState.gameWon)
+            Color.Yellow
+        else
+            lightGray
+
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.clickable {
+            modifier = Modifier
+                .border(1.dp, newButtonFrontColor, defaultRoundedCornerShape)
+                .clickable {
 
                 gameState.restart()
 
@@ -73,15 +87,17 @@ fun Toolbar(
             Icon(
                 imageVector = IconPlay,
                 contentDescription = null,
-                tint = lightGray
+                tint = newButtonFrontColor
             )
 
             Text(
                 text = "New",
                 fontFamily = fontFamily,
-                color = lightGray,
+                color = newButtonFrontColor,
                 fontSize = FONT_SIZE.sp
             )
+
+            DefaultSpacer()
         }
 
         DoubleSpacer()

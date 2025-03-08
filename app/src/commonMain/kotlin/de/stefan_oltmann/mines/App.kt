@@ -24,7 +24,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -46,6 +45,7 @@ import de.stefan_oltmann.mines.ui.theme.colorCardBackground
 import de.stefan_oltmann.mines.ui.theme.colorCardBorder
 import de.stefan_oltmann.mines.ui.theme.colorCardBorderGameOver
 import de.stefan_oltmann.mines.ui.theme.colorCardBorderGameWon
+import de.stefan_oltmann.mines.ui.theme.defaultRoundedCornerShape
 import de.stefan_oltmann.mines.ui.theme.doublePadding
 
 @Composable
@@ -93,7 +93,7 @@ fun App() {
 
             Card(
                 backgroundColor = colorCardBackground,
-                shape = RoundedCornerShape(8.dp),
+                shape = defaultRoundedCornerShape,
                 border = BorderStroke(1.dp, borderColor),
                 modifier = Modifier.doublePadding()
             ) {
