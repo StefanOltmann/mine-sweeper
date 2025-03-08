@@ -19,15 +19,12 @@
 
 package de.stefan_oltmann.mines.model
 
-enum class GameDifficulty {
+import de.stefan_oltmann.mines.DEFAULT_MAP_HEIGHT
+import de.stefan_oltmann.mines.DEFAULT_MAP_WIDTH
+import de.stefan_oltmann.mines.DEFAULT_MINE_COUNT
 
-    /* 10% mines */
-    EASY,
-
-    /* 20% mines */
-    MEDIUM,
-
-    /* 30% mines */
-    HARD
-
-}
+data class GameSettings(
+    val mapWidth: Int = DEFAULT_MAP_WIDTH,
+    val mapHeight: Int = DEFAULT_MAP_HEIGHT,
+    val mineCount: Int = DEFAULT_MINE_COUNT
+)

@@ -43,7 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import de.stefan_oltmann.mines.addRightClickListener
 import de.stefan_oltmann.mines.model.CellType
-import de.stefan_oltmann.mines.model.GameState
+import de.stefan_oltmann.mines.model.Minefield
 import de.stefan_oltmann.mines.ui.theme.colorCellBackground
 import de.stefan_oltmann.mines.ui.theme.colorCellBorder
 import de.stefan_oltmann.mines.ui.theme.colorCellHidden
@@ -71,12 +71,14 @@ private val cellStroke = Stroke(
 
 @Composable
 fun MinefieldCanvas(
-    gameState: GameState,
+    minefield: Minefield,
     cellSize: Float,
     cellSizeWithDensity: Size,
     redrawState: MutableState<Int>,
     textMeasurer: TextMeasurer,
-    fontFamily: FontFamily
+    fontFamily: FontFamily,
+    hit: (Int, Int) -> Unit,
+    flag: (Int, Int) -> Unit
 ) {
 
     val innerCellSizeWithDensity = cellSizeWithDensity.copy(
@@ -87,25 +89,25 @@ fun MinefieldCanvas(
     Canvas(
         modifier = Modifier
             .size(
-                width = (gameState.minefield.width * cellSize).dp,
-                height = (gameState.minefield.height * cellSize).dp
+                width = (minefield.width * cellSize).dp,
+                height = (minefield.height * cellSize).dp
             )
             .pointerInput(Unit) {
                 detectTapGestures(
                     onTap = { offset ->
 
-                        gameState.hit(
-                            x = (offset.x / cellSizeWithDensity.width).toInt(),
-                            y = (offset.y / cellSizeWithDensity.height).toInt()
+                        hit(
+                            (offset.x / cellSizeWithDensity.width).toInt(),
+                            (offset.y / cellSizeWithDensity.height).toInt()
                         )
 
                         redrawState.value += 1
                     },
                     onLongPress = { offset ->
 
-                        gameState.flag(
-                            x = (offset.x / cellSizeWithDensity.width).toInt(),
-                            y = (offset.y / cellSizeWithDensity.height).toInt()
+                        flag(
+                            (offset.x / cellSizeWithDensity.width).toInt(),
+                            (offset.y / cellSizeWithDensity.height).toInt()
                         )
 
                         redrawState.value += 1
@@ -114,9 +116,9 @@ fun MinefieldCanvas(
             }
             .addRightClickListener { offset ->
 
-                gameState.flag(
-                    x = (offset.x / cellSizeWithDensity.width).toInt(),
-                    y = (offset.y / cellSizeWithDensity.height).toInt()
+                flag(
+                    (offset.x / cellSizeWithDensity.width).toInt(),
+                    (offset.y / cellSizeWithDensity.height).toInt()
                 )
 
                 redrawState.value += 1
@@ -130,17 +132,17 @@ fun MinefieldCanvas(
          */
         redrawState.value
 
-        for (x in 0 until gameState.minefield.width) {
-            for (y in 0 until gameState.minefield.height) {
+        for (x in 0 until minefield.width) {
+            for (y in 0 until minefield.height) {
 
                 val offset = Offset(
                     x * cellSizeWithDensity.width + CELL_PADDING,
                     y * cellSizeWithDensity.height + CELL_PADDING
                 )
 
-                if (gameState.minefield.isRevealed(x, y)) {
+                if (minefield.isRevealed(x, y)) {
 
-                    val cellType = gameState.minefield.getCellType(x, y)
+                    val cellType = minefield.getCellType(x, y)
 
                     drawRevealedCell(
                         cellType = cellType,
@@ -168,7 +170,7 @@ fun MinefieldCanvas(
                         style = cellStroke
                     )
 
-                    if (gameState.minefield.isFlagged(x, y)) {
+                    if (minefield.isFlagged(x, y)) {
 
                         drawFlag(
                             topLeft = offset,

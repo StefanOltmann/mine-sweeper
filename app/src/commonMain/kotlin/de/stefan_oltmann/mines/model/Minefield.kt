@@ -22,13 +22,20 @@ package de.stefan_oltmann.mines.model
 import kotlin.random.Random
 
 class Minefield(
-    val width: Int,
-    val height: Int,
-    val mineCount: Int,
+    val settings: GameSettings,
     val seed: Int
 ) {
 
     // val id: String = "$width-$height-$mineCount-$seed"
+
+    val width
+        get() = settings.mapWidth
+
+    val height
+        get() = settings.mapHeight
+
+    private val mineCount
+        get() = settings.mineCount
 
     init {
 

@@ -19,9 +19,6 @@
 
 package de.stefan_oltmann.mines.model
 
-import de.stefan_oltmann.mines.DEFAULT_MAP_HEIGHT
-import de.stefan_oltmann.mines.DEFAULT_MAP_WIDTH
-import de.stefan_oltmann.mines.DEFAULT_MINE_COUNT
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -46,12 +43,7 @@ class GameState {
 
     var gameWon = false
 
-    var minefield = Minefield(
-        width = DEFAULT_MAP_WIDTH,
-        height = DEFAULT_MAP_HEIGHT,
-        mineCount = DEFAULT_MINE_COUNT,
-        seed = generateSeed()
-    )
+    var minefield: Minefield? = null
 
     private fun generateSeed() =
         (1..Int.MAX_VALUE).random()
@@ -82,7 +74,9 @@ class GameState {
         }
     }
 
-    fun restart() {
+    fun restart(
+        gameSettings: GameSettings
+    ) {
 
         isTimerRunning = false
         _elapsedSeconds.value = 0
@@ -91,14 +85,14 @@ class GameState {
         gameWon = false
 
         minefield = Minefield(
-            width = DEFAULT_MAP_WIDTH,
-            height = DEFAULT_MAP_HEIGHT,
-            mineCount = DEFAULT_MINE_COUNT,
+            settings = gameSettings,
             seed = generateSeed()
         )
     }
 
     fun hit(x: Int, y: Int) {
+
+        val minefield = minefield ?: return
 
         /* Ignore further inputs if game ended. */
         if (gameOver || gameWon)
@@ -138,6 +132,8 @@ class GameState {
     }
 
     fun flag(x: Int, y: Int) {
+
+        val minefield = minefield ?: return
 
         /* Ignore further inputs if game ended. */
         if (gameOver || gameWon)

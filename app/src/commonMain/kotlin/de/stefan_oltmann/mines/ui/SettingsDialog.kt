@@ -46,6 +46,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import de.stefan_oltmann.mines.FONT_SIZE
+import de.stefan_oltmann.mines.model.GameSettings
+import de.stefan_oltmann.mines.ui.icons.IconCancel
 import de.stefan_oltmann.mines.ui.icons.IconCheck
 import de.stefan_oltmann.mines.ui.icons.IconHeight
 import de.stefan_oltmann.mines.ui.icons.IconMines
@@ -62,20 +64,22 @@ import de.stefan_oltmann.mines.ui.theme.sliderColors
 
 @Composable
 fun SettingsDialog(
+    gameSettings: GameSettings,
     fontFamily: FontFamily,
-    onClose: () -> Unit
+    onCancel: () -> Unit,
+    onConfirm: (GameSettings) -> Unit
 ) {
 
-    val width = remember { mutableStateOf(10f) }
-    val height = remember { mutableStateOf(10f) }
-    val mineCount = remember { mutableStateOf(20f) }
+    val mapWidth = remember { mutableStateOf(gameSettings.mapWidth.toFloat()) }
+    val mapHeight = remember { mutableStateOf(gameSettings.mapHeight.toFloat()) }
+    val mineCount = remember { mutableStateOf(gameSettings.mineCount.toFloat()) }
 
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
             .fillMaxSize()
             .background(Color.Black.copy(alpha = 0.2F))
-            .noRippleClickable(onClick = onClose)
+            .noRippleClickable(onClick = onCancel)
     ) {
 
         Card(
@@ -117,9 +121,9 @@ fun SettingsDialog(
                     )
 
                     Slider(
-                        value = width.value,
+                        value = mapWidth.value,
                         onValueChange = {
-                            width.value = it
+                            mapWidth.value = it
                         },
                         valueRange = 5f..30f,
                         colors = sliderColors,
@@ -127,7 +131,7 @@ fun SettingsDialog(
                     )
 
                     Text(
-                        text = width.value.toInt().toString(),
+                        text = mapWidth.value.toInt().toString(),
                         fontFamily = fontFamily,
                         color = lightGray,
                         fontSize = FONT_SIZE.sp,
@@ -149,9 +153,9 @@ fun SettingsDialog(
                     )
 
                     Slider(
-                        value = height.value,
+                        value = mapHeight.value,
                         onValueChange = {
-                            height.value = it
+                            mapHeight.value = it
                         },
                         valueRange = 5f..30f,
                         colors = sliderColors,
@@ -159,7 +163,7 @@ fun SettingsDialog(
                     )
 
                     Text(
-                        text = height.value.toInt().toString(),
+                        text = mapHeight.value.toInt().toString(),
                         fontFamily = fontFamily,
                         color = lightGray,
                         fontSize = FONT_SIZE.sp,
@@ -211,13 +215,13 @@ fun SettingsDialog(
                             .height(buttonSize)
                             .weight(0.5f)
                             .background(colorCellHidden, defaultRoundedCornerShape)
-                            .noRippleClickable(onClose)
+                            .noRippleClickable(onCancel)
                     ) {
 
                         Icon(
-                            imageVector = IconCheck,
+                            imageVector = IconCancel,
                             contentDescription = null,
-                            tint = Color.Green
+                            tint = Color.Red
                         )
                     }
 
@@ -227,7 +231,15 @@ fun SettingsDialog(
                             .height(buttonSize)
                             .weight(0.5f)
                             .background(colorCellHidden, defaultRoundedCornerShape)
-                            .noRippleClickable(onClose)
+                            .noRippleClickable {
+                                onConfirm(
+                                    GameSettings(
+                                        mapWidth = mapWidth.value.toInt(),
+                                        mapHeight = mapHeight.value.toInt(),
+                                        mineCount = mineCount.value.toInt()
+                                    )
+                                )
+                            }
                     ) {
 
                         Icon(

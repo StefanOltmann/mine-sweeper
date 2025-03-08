@@ -27,6 +27,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -37,6 +38,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.dp
+import de.stefan_oltmann.mines.model.GameSettings
 import de.stefan_oltmann.mines.model.GameState
 import de.stefan_oltmann.mines.ui.AppFooter
 import de.stefan_oltmann.mines.ui.MinefieldCanvas
@@ -58,9 +60,22 @@ fun App() {
 
     val gameState = remember { GameState() }
 
-    val elapsedSeconds by gameState.elapsedSeconds.collectAsState()
+    val gameSettings = remember { mutableStateOf(GameSettings()) }
 
     val redrawState = remember { mutableStateOf(0) }
+
+    /* Launch a new game every time the settings change */
+    LaunchedEffect(gameSettings.value) {
+
+        println("Restart game...")
+
+        gameState.restart(gameSettings.value)
+
+        // HACK
+        redrawState.value += 1
+    }
+
+    val elapsedSeconds by gameState.elapsedSeconds.collectAsState()
 
     val showSettings = remember { mutableStateOf(false) }
 
@@ -115,36 +130,50 @@ fun App() {
                     Toolbar(
                         highlightRestartButton = gameState.gameOver || gameState.gameWon,
                         elapsedSeconds = elapsedSeconds,
-                        remainingFlagsCount = gameState.minefield.getRemainingFlagsCount(),
+                        remainingFlagsCount = gameState.minefield?.getRemainingFlagsCount() ?: 0,
                         fontFamily = fontFamily,
                         showSettings = {
                             showSettings.value = true
                         },
                         restartGame = {
 
-                            gameState.restart()
+                            gameState.restart(gameSettings.value)
 
                             // HACK
                             redrawState.value += 1
                         }
                     )
 
-                    MinefieldCanvas(
-                        gameState,
-                        CELL_SIZE,
-                        cellSizeWithDensity,
-                        redrawState,
-                        textMeasurer,
-                        fontFamily
-                    )
+                    val minefield = gameState.minefield
+
+                    if (minefield != null) {
+
+                        MinefieldCanvas(
+                            minefield,
+                            CELL_SIZE,
+                            cellSizeWithDensity,
+                            redrawState,
+                            textMeasurer,
+                            fontFamily,
+                            hit = { x, y -> gameState.hit(x, y) },
+                            flag = { x, y -> gameState.flag(x, y) }
+                        )
+                    }
                 }
             }
 
             if (showSettings.value)
                 SettingsDialog(
+                    gameSettings = gameSettings.value,
                     fontFamily = fontFamily,
-                    onClose = {
+                    onCancel = {
                         showSettings.value = false
+                    },
+                    onConfirm = { newGameSettings ->
+
+                        showSettings.value = false
+
+                        gameSettings.value = newGameSettings
                     }
                 )
         }
