@@ -102,6 +102,14 @@ class Minefield(
         }
     }
 
+    fun revealAllMines() {
+
+        for (x in 0 until width)
+            for (y in 0 until height)
+                if (isMine(x, y))
+                    revealedMatrix[x][y] = true
+    }
+
     fun isFlagged(x: Int, y: Int): Boolean =
         flaggedMatrix[x][y]
 

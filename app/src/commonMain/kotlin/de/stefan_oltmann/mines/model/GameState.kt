@@ -67,7 +67,12 @@ class GameState {
 
         /* Check game over condition */
         if (minefield.isMine(x, y)) {
+
             gameOver = true
+
+            /* Show the user all mines. */
+            minefield.revealAllMines()
+
             return
         }
 
