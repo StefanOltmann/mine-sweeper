@@ -21,12 +21,14 @@ package de.stefan_oltmann.mines
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
@@ -37,8 +39,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.rememberTextMeasurer
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import de.stefan_oltmann.mines.model.GameState
@@ -46,10 +50,11 @@ import de.stefan_oltmann.mines.ui.AppFooter
 import de.stefan_oltmann.mines.ui.MinefieldCanvas
 import de.stefan_oltmann.mines.ui.icons.IconFlag
 import de.stefan_oltmann.mines.ui.icons.IconPlay
+import de.stefan_oltmann.mines.ui.icons.IconSettings
 import de.stefan_oltmann.mines.ui.icons.IconTimer
+import de.stefan_oltmann.mines.ui.theme.DefaultSpacer
 import de.stefan_oltmann.mines.ui.theme.DoubleSpacer
 import de.stefan_oltmann.mines.ui.theme.EconomicaFontFamily
-import de.stefan_oltmann.mines.ui.theme.HalfSpacer
 import de.stefan_oltmann.mines.ui.theme.colorBackground
 import de.stefan_oltmann.mines.ui.theme.colorCardBackground
 import de.stefan_oltmann.mines.ui.theme.colorCardBorder
@@ -119,13 +124,13 @@ fun App() {
                         verticalAlignment = Alignment.CenterVertically
                     ) {
 
-//                        Icon(
-//                            imageVector = IconSettings,
-//                            contentDescription = null,
-//                            tint = lightGray
-//                        )
-//
-//                        DoubleSpacer()
+                        Icon(
+                            imageVector = IconSettings,
+                            contentDescription = null,
+                            tint = lightGray
+                        )
+
+                        DefaultSpacer()
 
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
@@ -147,7 +152,7 @@ fun App() {
                                 text = "New",
                                 fontFamily = fontFamily,
                                 color = lightGray,
-                                fontSize = 24.sp
+                                fontSize = FONT_SIZE.sp
                             )
                         }
 
@@ -159,16 +164,16 @@ fun App() {
                             tint = lightGray
                         )
 
-                        HalfSpacer()
-
                         Text(
-                            text = "300",
+                            text = "999",
                             fontFamily = fontFamily,
                             color = lightGray,
-                            fontSize = 24.sp
+                            fontSize = FONT_SIZE.sp,
+                            textAlign = TextAlign.Right,
+                            modifier = Modifier.width(28.dp).border(1.dp, Color.Red)
                         )
 
-                        DoubleSpacer()
+                        DefaultSpacer()
 
                         Icon(
                             imageVector = IconFlag,
@@ -176,13 +181,13 @@ fun App() {
                             tint = lightGray
                         )
 
-                        HalfSpacer()
-
                         Text(
                             text = gameState.minefield.getRemainingFlagsCount().toString(),
                             fontFamily = fontFamily,
                             color = lightGray,
-                            fontSize = 24.sp
+                            fontSize = FONT_SIZE.sp,
+                            textAlign = TextAlign.Right,
+                            modifier = Modifier.width(20.dp)
                         )
                     }
 
