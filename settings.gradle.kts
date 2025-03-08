@@ -1,4 +1,4 @@
-rootProject.name = "mine-sweeper"
+rootProject.name = "mines"
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
