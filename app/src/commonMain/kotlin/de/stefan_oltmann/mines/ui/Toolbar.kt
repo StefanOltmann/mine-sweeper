@@ -20,6 +20,7 @@
 package de.stefan_oltmann.mines.ui
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.requiredWidthIn
@@ -57,6 +58,7 @@ fun Toolbar(
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center,
         modifier = Modifier.requiredWidthIn(min = 240.dp)
     ) {
 
