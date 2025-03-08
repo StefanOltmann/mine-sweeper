@@ -25,6 +25,9 @@ import de.stefan_oltmann.mines.DEFAULT_MINE_COUNT
 
 class GameState {
 
+//    private val _elapsedTime = MutableStateFlow(0) // Timer in seconds
+//    val elapsedTime = _elapsedTime.asStateFlow()
+
     var gameOver = false
 
     var gameWon = false
