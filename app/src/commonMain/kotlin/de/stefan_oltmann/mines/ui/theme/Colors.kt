@@ -19,6 +19,7 @@
 
 package de.stefan_oltmann.mines.ui.theme
 
+import androidx.compose.material3.SliderColors
 import androidx.compose.ui.graphics.Color
 
 val lightGray = Color(0xFFF8F8F8)
@@ -45,3 +46,17 @@ val colorFiveAdjacentMines = Color(0xFFFF4444)
 val colorSixAdjacentMines = Color(0xFF40E0D0)
 val colorSevenAdjacentMines = Color(0xFF808080)
 val colorEightAdjacentMines = Color(0xFFD0D0D0)
+
+val sliderColors = SliderColors(
+    thumbColor = lightGray,
+    activeTrackColor = lightGray,
+    inactiveTrackColor = colorCellHidden,
+    activeTickColor = colorCellHidden,
+    inactiveTickColor = colorCellHidden,
+    /* Unused values */
+    disabledThumbColor = Color.Red,
+    disabledActiveTrackColor = Color.Red,
+    disabledActiveTickColor = Color.Red,
+    disabledInactiveTrackColor = Color.Red,
+    disabledInactiveTickColor = Color.Red
+)

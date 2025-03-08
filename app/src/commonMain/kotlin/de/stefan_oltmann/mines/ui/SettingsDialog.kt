@@ -21,15 +21,22 @@ package de.stefan_oltmann.mines.ui
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Slider
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -39,19 +46,26 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import de.stefan_oltmann.mines.FONT_SIZE
 import de.stefan_oltmann.mines.ui.icons.IconCheck
+import de.stefan_oltmann.mines.ui.icons.IconHeight
+import de.stefan_oltmann.mines.ui.icons.IconWidth
 import de.stefan_oltmann.mines.ui.theme.buttonSize
 import de.stefan_oltmann.mines.ui.theme.colorCardBackground
 import de.stefan_oltmann.mines.ui.theme.colorCardBorder
 import de.stefan_oltmann.mines.ui.theme.colorCellHidden
 import de.stefan_oltmann.mines.ui.theme.defaultRoundedCornerShape
+import de.stefan_oltmann.mines.ui.theme.defaultSpacing
 import de.stefan_oltmann.mines.ui.theme.doublePadding
 import de.stefan_oltmann.mines.ui.theme.lightGray
+import de.stefan_oltmann.mines.ui.theme.sliderColors
 
 @Composable
 fun SettingsDialog(
     fontFamily: FontFamily,
     onClose: () -> Unit
 ) {
+
+    val width = remember { mutableStateOf(10f) }
+    val height = remember { mutableStateOf(10f) }
 
     Box(
         contentAlignment = Alignment.Center,
@@ -62,7 +76,9 @@ fun SettingsDialog(
     ) {
 
         Card(
-            backgroundColor = colorCardBackground,
+            colors = CardDefaults.cardColors().copy(
+                containerColor = colorCardBackground
+            ),
             shape = defaultRoundedCornerShape,
             border = BorderStroke(1.dp, colorCardBorder),
             modifier = Modifier
@@ -73,18 +89,80 @@ fun SettingsDialog(
         ) {
 
             Column(
+                verticalArrangement = Arrangement.spacedBy(defaultSpacing),
                 modifier = Modifier.doublePadding()
             ) {
 
-                Text(
-                    text = "Settings",
-                    fontFamily = fontFamily,
-                    color = lightGray,
-                    fontSize = FONT_SIZE.sp,
-                    textAlign = TextAlign.Right,
-                    modifier = Modifier
-                        .doublePadding()
-                )
+//                Text(
+//                    text = "Settings",
+//                    fontFamily = fontFamily,
+//                    color = lightGray,
+//                    fontSize = FONT_SIZE.sp
+//                )
+
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(defaultSpacing),
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(horizontal = defaultSpacing)
+                ) {
+
+                    Icon(
+                        imageVector = IconWidth,
+                        contentDescription = null,
+                        tint = lightGray
+                    )
+
+                    Slider(
+                        value = width.value,
+                        onValueChange = {
+                            width.value = it
+                        },
+                        valueRange = 5f..30f,
+                        colors = sliderColors,
+                        modifier = Modifier.weight(1F)
+                    )
+
+                    Text(
+                        text = width.value.toInt().toString(),
+                        fontFamily = fontFamily,
+                        color = lightGray,
+                        fontSize = FONT_SIZE.sp,
+                        textAlign = TextAlign.Right,
+                        modifier = Modifier.widthIn(min = 20.dp)
+                    )
+                }
+
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(defaultSpacing),
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(horizontal = defaultSpacing)
+                ) {
+
+                    Icon(
+                        imageVector = IconHeight,
+                        contentDescription = null,
+                        tint = lightGray
+                    )
+
+                    Slider(
+                        value = height.value,
+                        onValueChange = {
+                            height.value = it
+                        },
+                        valueRange = 5f..30f,
+                        colors = sliderColors,
+                        modifier = Modifier.weight(1F)
+                    )
+
+                    Text(
+                        text = height.value.toInt().toString(),
+                        fontFamily = fontFamily,
+                        color = lightGray,
+                        fontSize = FONT_SIZE.sp,
+                        textAlign = TextAlign.Right,
+                        modifier = Modifier.widthIn(min = 20.dp)
+                    )
+                }
 
                 Box(
                     contentAlignment = Alignment.Center,
