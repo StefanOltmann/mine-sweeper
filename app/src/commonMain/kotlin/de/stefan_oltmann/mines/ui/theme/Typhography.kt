@@ -23,11 +23,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import mine_sweeper.app.generated.resources.Res
-import mine_sweeper.app.generated.resources.economica_bold
-import mine_sweeper.app.generated.resources.economica_bold_italic
-import mine_sweeper.app.generated.resources.economica_italic
-import mine_sweeper.app.generated.resources.economica_regular
+import mines.app.generated.resources.Res
+import mines.app.generated.resources.economica_bold
+import mines.app.generated.resources.economica_bold_italic
+import mines.app.generated.resources.economica_italic
+import mines.app.generated.resources.economica_regular
 import org.jetbrains.compose.resources.Font
 
 @Composable
