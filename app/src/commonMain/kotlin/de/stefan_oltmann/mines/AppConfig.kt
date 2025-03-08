@@ -21,6 +21,6 @@ package de.stefan_oltmann.mines
 
 const val APP_TITLE = "Mines"
 
-const val DEFAULT_MAP_WIDTH = 10
-const val DEFAULT_MAP_HEIGHT = 10
-const val DEFAULT_MINE_COUNT = 20
+const val DEFAULT_MAP_WIDTH = 5
+const val DEFAULT_MAP_HEIGHT = 5
+const val DEFAULT_MINE_COUNT = 2

@@ -27,6 +27,8 @@ class GameState {
 
     var gameOver = false
 
+    var gameWon = false
+
     var minefield = Minefield(
         width = DEFAULT_MAP_WIDTH,
         height = DEFAULT_MAP_HEIGHT,
@@ -37,6 +39,7 @@ class GameState {
     fun restart() {
 
         gameOver = false
+        gameWon = false
 
         minefield = Minefield(
             width = DEFAULT_MAP_WIDTH,
@@ -48,6 +51,10 @@ class GameState {
 
     fun hit(x: Int, y: Int) {
 
+        /* Ignore further inputs if game ended. */
+        if (gameOver || gameWon)
+            return
+
         /* Ignore clicks on already revealed or flagged cells. */
         if (minefield.isRevealed(x, y) || minefield.isFlagged(x, y))
             return
@@ -56,17 +63,21 @@ class GameState {
         minefield.reveal(x, y)
 
         /* Check game over condition */
-        if (minefield.getCellType(x, y) == CellType.MINE) {
+        if (minefield.isMine(x, y)) {
             gameOver = true
             return
         }
 
-        /*
-         * TODO Check win condition
-         */
+        /* Check win condition */
+        if (minefield.isAllFieldsRevealed())
+            gameWon = true
     }
 
     fun flag(x: Int, y: Int) {
+
+        /* Ignore further inputs if game ended. */
+        if (gameOver || gameWon)
+            return
 
         /* Only non-revealed fields can be flagged. */
         if (minefield.isRevealed(x, y))

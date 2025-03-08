@@ -54,6 +54,7 @@ import de.stefan_oltmann.mines.ui.theme.colorBackground
 import de.stefan_oltmann.mines.ui.theme.colorCardBackground
 import de.stefan_oltmann.mines.ui.theme.colorCardBorder
 import de.stefan_oltmann.mines.ui.theme.colorCardBorderGameOver
+import de.stefan_oltmann.mines.ui.theme.colorCardBorderGameWon
 import de.stefan_oltmann.mines.ui.theme.doublePadding
 import de.stefan_oltmann.mines.ui.theme.lightGray
 
@@ -96,10 +97,16 @@ fun App() {
                 .background(colorBackground)
         ) {
 
+            val borderColor = when {
+                gameState.gameOver -> colorCardBorderGameOver
+                gameState.gameWon -> colorCardBorderGameWon
+                else -> colorCardBorder
+            }
+
             Card(
                 backgroundColor = colorCardBackground,
                 shape = RoundedCornerShape(8.dp),
-                border = BorderStroke(1.dp, if (gameState.gameOver) colorCardBorderGameOver else colorCardBorder),
+                border = BorderStroke(1.dp, borderColor),
                 modifier = Modifier.doublePadding()
             ) {
 

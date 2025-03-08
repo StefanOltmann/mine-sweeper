@@ -29,6 +29,7 @@ val colorCardBackground = Color(0xFF1D1D1D)
 val colorCardBorder = Color(0xFF3A3B3C)
 
 val colorCardBorderGameOver = Color.Red
+val colorCardBorderGameWon = Color.Green
 
 val colorCellHidden = Color(0xFF232323)
 val colorCellBackground = Color(0xFF1F1F1F)

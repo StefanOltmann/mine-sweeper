@@ -63,6 +63,19 @@ class Minefield(
     fun isRevealed(x: Int, y: Int): Boolean =
         revealedMatrix[x][y]
 
+    /**
+     * Check if all non-mine fields are revealed now.
+     */
+    fun isAllFieldsRevealed(): Boolean {
+
+        for (x in 0 until width)
+            for (y in 0 until height)
+                if (!isMine(x, y) && !isRevealed(x, y))
+                    return false
+
+        return true
+    }
+
     fun reveal(x: Int, y: Int) {
 
         /* Ignore call if coordinates are already revealed. */
@@ -97,6 +110,9 @@ class Minefield(
     }
 
     fun getCellType(x: Int, y: Int): CellType = matrix[x][y]
+
+    fun isMine(x: Int, y: Int): Boolean =
+        matrix[x][y] == CellType.MINE
 
     companion object {
 

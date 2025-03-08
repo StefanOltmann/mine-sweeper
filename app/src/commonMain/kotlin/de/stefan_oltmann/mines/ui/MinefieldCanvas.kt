@@ -93,10 +93,6 @@ fun MinefieldCanvas(
                 detectTapGestures(
                     onTap = { offset ->
 
-                        /* Ignore inputs if game is over */
-                        if (gameState.gameOver)
-                            return@detectTapGestures
-
                         gameState.hit(
                             x = (offset.x / cellSizeWithDensity.width).toInt(),
                             y = (offset.y / cellSizeWithDensity.height).toInt()
@@ -105,10 +101,6 @@ fun MinefieldCanvas(
                         redrawState.value += 1
                     },
                     onLongPress = { offset ->
-
-                        /* Ignore inputs if game is over */
-                        if (gameState.gameOver)
-                            return@detectTapGestures
 
                         gameState.flag(
                             x = (offset.x / cellSizeWithDensity.width).toInt(),
