@@ -60,7 +60,7 @@ fun Toolbar(
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
-        modifier = Modifier.requiredWidthIn(min = 240.dp)
+        modifier = Modifier.requiredWidthIn(min = 288.dp)
     ) {
 
         Box(
