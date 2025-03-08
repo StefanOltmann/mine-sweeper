@@ -120,8 +120,8 @@ fun MinefieldCanvas(
          */
         redrawState.value
 
-        repeat(gameState.minefield.width) { x ->
-            repeat(gameState.minefield.height) { y ->
+        for (x in 0 until gameState.minefield.width) {
+            for (y in 0 until gameState.minefield.height) {
 
                 val offset = Offset(
                     x * cellSizeWithDensity.width + CELL_PADDING,
