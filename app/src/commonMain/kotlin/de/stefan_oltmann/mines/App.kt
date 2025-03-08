@@ -40,7 +40,6 @@ import de.stefan_oltmann.mines.model.GameState
 import de.stefan_oltmann.mines.ui.AppFooter
 import de.stefan_oltmann.mines.ui.MinefieldCanvas
 import de.stefan_oltmann.mines.ui.Toolbar
-import de.stefan_oltmann.mines.ui.theme.DoubleSpacer
 import de.stefan_oltmann.mines.ui.theme.EconomicaFontFamily
 import de.stefan_oltmann.mines.ui.theme.colorBackground
 import de.stefan_oltmann.mines.ui.theme.colorCardBackground
@@ -108,10 +107,14 @@ fun App() {
                 ) {
 
                     Toolbar(
-                        highlightNewButton = gameState.gameOver || gameState.gameWon,
+                        highlightRestartButton = gameState.gameOver || gameState.gameWon,
                         elapsedSeconds = elapsedSeconds,
                         remainingFlagsCount = gameState.minefield.getRemainingFlagsCount(),
                         fontFamily = fontFamily,
+                        showSettings = {
+
+                            // TODO
+                        },
                         restartGame = {
 
                             gameState.restart()
@@ -120,8 +123,6 @@ fun App() {
                             redrawState.value += 1
                         }
                     )
-
-                    DoubleSpacer()
 
                     MinefieldCanvas(
                         gameState,

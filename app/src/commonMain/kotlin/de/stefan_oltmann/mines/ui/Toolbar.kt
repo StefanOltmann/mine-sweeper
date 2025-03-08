@@ -19,9 +19,10 @@
 
 package de.stefan_oltmann.mines.ui
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -35,20 +36,21 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import de.stefan_oltmann.mines.FONT_SIZE
 import de.stefan_oltmann.mines.ui.icons.IconFlag
-import de.stefan_oltmann.mines.ui.icons.IconPlay
+import de.stefan_oltmann.mines.ui.icons.IconRestart
+import de.stefan_oltmann.mines.ui.icons.IconSettings
 import de.stefan_oltmann.mines.ui.icons.IconTimer
-import de.stefan_oltmann.mines.ui.theme.DefaultSpacer
 import de.stefan_oltmann.mines.ui.theme.DoubleSpacer
 import de.stefan_oltmann.mines.ui.theme.HalfSpacer
-import de.stefan_oltmann.mines.ui.theme.defaultRoundedCornerShape
+import de.stefan_oltmann.mines.ui.theme.buttonSize
 import de.stefan_oltmann.mines.ui.theme.lightGray
 
 @Composable
 fun Toolbar(
-    highlightNewButton: Boolean,
+    highlightRestartButton: Boolean,
     elapsedSeconds: Int,
     remainingFlagsCount: Int,
     fontFamily: FontFamily,
+    showSettings: () -> Unit,
     restartGame: () -> Unit
 ) {
 
@@ -56,40 +58,35 @@ fun Toolbar(
         verticalAlignment = Alignment.CenterVertically
     ) {
 
-//        Icon(
-//            imageVector = IconSettings,
-//            contentDescription = null,
-//            tint = lightGray
-//        )
-//
-//        DefaultSpacer()
-
-        val newButtonFrontColor = if (highlightNewButton)
-            Color.Yellow
-        else
-            lightGray
-
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
+        Box(
+            contentAlignment = Alignment.Center,
             modifier = Modifier
-                .border(1.dp, newButtonFrontColor, defaultRoundedCornerShape)
+                .size(buttonSize)
                 .clickable(onClick = restartGame)
         ) {
 
             Icon(
-                imageVector = IconPlay,
+                imageVector = IconRestart,
                 contentDescription = null,
-                tint = newButtonFrontColor
+                tint = if (highlightRestartButton)
+                    Color.Yellow
+                else
+                    lightGray
             )
+        }
 
-            Text(
-                text = "New",
-                fontFamily = fontFamily,
-                color = newButtonFrontColor,
-                fontSize = FONT_SIZE.sp
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier
+                .size(buttonSize)
+                .clickable(onClick = showSettings)
+        ) {
+
+            Icon(
+                imageVector = IconSettings,
+                contentDescription = null,
+                tint = lightGray
             )
-
-            DefaultSpacer()
         }
 
         DoubleSpacer()
